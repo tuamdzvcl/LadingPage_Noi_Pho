@@ -216,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${highlightHtml}
                     <div>
                         <div class="relative h-36 md:h-64 bg-slate-50 flex items-center justify-center p-3 md:p-6 border-b border-gray-100 cursor-pointer group" onclick="openProductModal('${p.id}')">
-                            <span class="absolute top-4 left-4 ${p.badgeColor} text-white text-[0.65rem] md:text-xs font-black px-2 md:px-3 py-1 md:py-1.5 rounded-lg uppercase">${p.badge}</span>
+                            <span class="absolute top-4 left-4 z-10 ${p.badgeColor} text-white text-[0.65rem] md:text-xs font-black px-2 md:px-3 py-1 md:py-1.5 rounded-lg uppercase">${p.badge}</span>
                             <img src="${p.image}" alt="${p.name}" class="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-110">
                         </div>
                         <div class="p-3 md:p-6">
