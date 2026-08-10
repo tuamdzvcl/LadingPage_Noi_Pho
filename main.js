@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                             <div class="relative w-full">
                                 ${discountHtml}
-                                <a href="#order-form" onclick="selectCapacityInForm('${p.capacity}L')"
+                                <a href="javascript:void(0)" onclick="selectCapacityInForm('${p.capacity}L'); openOrderModal()"
                                     class="bg-brand-blue hover:bg-brand-blue-dark text-white text-center py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 w-full relative z-10">
                                     <i data-lucide="shopping-cart" class="w-4 h-4"></i>
                                     <span>Đặt Mua</span>
@@ -287,31 +287,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // ======================== DUAL SUBMIT FORM HANDLER ========================
-    const form = document.getElementById('consultation-form');
-    const formSuccess = document.getElementById('form-success');
-    let clickedAction = 'order';
+    const forms = document.querySelectorAll('.consultation-form');
+    
+    forms.forEach(form => {
+        let clickedAction = 'order';
+        const btnOrderNow = form.querySelector('[data-action="order"]');
+        const btnRequestCall = form.querySelector('[data-action="consult"]');
+        const formSuccess = form.parentElement.querySelector('.form-success-alert');
 
-    const btnOrderNow = document.getElementById('btn-order-now');
-    const btnRequestCall = document.getElementById('btn-request-call');
+        if (btnOrderNow) {
+            btnOrderNow.addEventListener('click', () => { clickedAction = 'order'; });
+        }
 
-    if (btnOrderNow) {
-        btnOrderNow.addEventListener('click', () => {
-            clickedAction = 'order';
-        });
-    }
+        if (btnRequestCall) {
+            btnRequestCall.addEventListener('click', () => { clickedAction = 'consult'; });
+        }
 
-    if (btnRequestCall) {
-        btnRequestCall.addEventListener('click', () => {
-            clickedAction = 'consult';
-        });
-    }
-
-    if (form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const fullname = document.getElementById('fullname').value.trim();
-            const phone = document.getElementById('phone').value.trim();
+            const fullname = form.querySelector('input[name="fullname"]').value.trim();
+            const phone = form.querySelector('input[name="phone"]').value.trim();
 
             const selectedProducts = [];
             if (typeof productsData !== 'undefined') {
@@ -329,7 +325,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (qty > 0) selectedProducts.push('Bộ 2 Nồi (30L + 70L) - SL: ' + qty);
             }
             const capacityText = selectedProducts.length > 0 ? selectedProducts.join(', ') : 'Chưa chọn sản phẩm';
-
 
             if (!fullname || !phone) {
                 alert('Vui lòng điền đầy đủ Họ và tên và Số điện thoại!');
@@ -379,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, 5000);
             }, 1200);
         });
-    }
+    });
 
     // ======================== SCROLL TO TOP ========================
     const scrollTopBtn = document.getElementById('scroll-top-btn');
@@ -503,7 +498,7 @@ window.openProductModal = function (productId) {
         if (typeof lucide !== 'undefined') lucide.createIcons();
     }
 
-    document.getElementById('modal-buy-btn').setAttribute('onclick', `selectCapacityInForm('${product.capacity}L'); closeProductModal();`);
+    document.getElementById('modal-buy-btn').setAttribute('onclick', `selectCapacityInForm('${product.capacity}L'); closeProductModal(); openOrderModal();`);
 
     // Show modal
     const modal = document.getElementById('product-modal');
@@ -538,8 +533,60 @@ window.closeProductModal = function () {
 
     setTimeout(() => {
         modal.classList.add('hidden');
-        document.body.style.overflow = '';
+        const orderModal = document.getElementById('order-modal');
+        if (!orderModal || orderModal.classList.contains('hidden')) {
+            document.body.style.overflow = '';
+        }
         if (countdownInterval) clearInterval(countdownInterval);
+    }, 300);
+};
+
+window.openOrderModal = function () {
+    const modal = document.getElementById('order-modal');
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        void modal.offsetWidth; // trigger reflow
+
+        const backdrop = modal.querySelector('.modal-backdrop');
+        if (backdrop) {
+            backdrop.classList.remove('opacity-0');
+            backdrop.classList.add('opacity-100');
+        }
+
+        const content = modal.querySelector('.modal-content');
+        if (content) {
+            content.classList.remove('opacity-0', 'translate-y-10');
+            content.classList.add('opacity-100', 'translate-y-0');
+        }
+
+        document.body.style.overflow = 'hidden';
+    }
+};
+
+window.closeOrderModal = function () {
+    const modal = document.getElementById('order-modal');
+    if (!modal) return;
+
+    const backdrop = modal.querySelector('.modal-backdrop');
+    if (backdrop) {
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0');
+    }
+
+    const content = modal.querySelector('.modal-content');
+    if (content) {
+        content.classList.remove('opacity-100', 'translate-y-0');
+        content.classList.add('opacity-0', 'translate-y-10');
+    }
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        const productModal = document.getElementById('product-modal');
+        if (!productModal || productModal.classList.contains('hidden')) {
+            document.body.style.overflow = '';
+        }
     }, 300);
 };
 
