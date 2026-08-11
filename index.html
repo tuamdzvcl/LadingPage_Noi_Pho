@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 
 <head>
@@ -50,6 +50,15 @@
               "sans-serif",
             ],
           },
+          animation: {
+            marquee: 'marquee 25s linear infinite',
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+          },
         },
       },
     };
@@ -63,6 +72,10 @@
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+  <!-- Fancybox -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
 
   <style>
     * {
@@ -241,14 +254,14 @@
           <a href="#instructions"
             class="nav-link px-4 py-2 text-base font-semibold text-navy-700 hover:text-brand-blue hover:bg-brand-sky-light/50 rounded-lg transition-all">Video
             lắp đặt</a>
-          <a href="javascript:void(0)" onclick="openOrderModal()"
+          <a href="#order-form"
             class="nav-link px-4 py-2 text-base font-semibold text-navy-700 hover:text-brand-blue hover:bg-brand-sky-light/50 rounded-lg transition-all">Đặt
             hàng</a>
         </nav>
 
         <!-- Hotline Action Button -->
         <div class="hidden md:flex items-center gap-3">
-          <a href="tel:0988888888"
+          <a href="tel:0964516124"
             class="inline-flex items-center gap-2.5 bg-brand-sky hover:bg-brand-sky-hover text-white px-5 py-2.5 rounded-xl font-bold text-base transition-all duration-300 shadow-md shadow-brand-sky/30">
             <i data-lucide="phone-call" class="w-5 h-5 animate-bounce"></i>
             <span>Hotline: 0964516124</span>
@@ -290,7 +303,7 @@
           <a href="#instructions"
             class="mobile-nav-link px-4 py-3 text-white text-base font-semibold hover:bg-white/10 rounded-xl">Video
             hướng dẫn</a>
-          <a href="javascript:void(0)" onclick="openOrderModal()"
+          <a href="#order-form"
             class="mobile-nav-link px-4 py-3 text-white text-base font-semibold hover:bg-white/10 rounded-xl">Form đặt
             hàng & tư vấn</a>
         </nav>
@@ -309,9 +322,9 @@
   <!-- ======================== 2. BANNER / HERO SECTION ======================== -->
   <section id="hero" class="relative pt-24 lg:pt-32 pb-16 lg:pb-24 bg-[#93B2E7] overflow-hidden">
     <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
-      <div class="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <div class="grid lg:grid-cols-10 gap-8 lg:gap-12 items-center">
         <!-- Left Content -->
-        <div class="lg:col-span-7 animate-on-scroll">
+        <div class="lg:col-span-6 animate-on-scroll">
           <h1 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-blue leading-[1.5] mb-6">
             NỒI PHỞ ĐIỆN INOX 304 CAO CẤP<br />
             <span class="text-brand-sky">TIẾT KIỆM 30% ĐIỆN NĂNG</span>
@@ -325,7 +338,7 @@
 
           <!-- Dual CTAs -->
           <div class="flex flex-col sm:flex-row gap-4">
-            <a href="javascript:void(0)" onclick="openOrderModal()"
+            <a href="#order-form"
               class="pulse-btn inline-flex w-full sm:w-auto flex-1 items-center justify-center gap-3 bg-brand-blue hover:bg-brand-blue-dark text-white px-8 py-4 rounded-xl text-lg font-extrabold transition-all duration-300 shadow-xl shadow-brand-blue/25">
               <i data-lucide="shopping-cart" class="w-5 h-6"></i>
               <span>ĐẶT MUA NGAY</span>
@@ -365,17 +378,17 @@
         </div>
 
         <!-- Right Hero Visual -->
-        <div class="lg:col-span-5 relative animate-on-scroll">
-          <div class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white">
-            <img src="image/1786335517186_2018911873050580765_2018911873050580765_f31fb11d44f3adb1bff82d8b820ca272.jpg"
-              alt="Showroom Nồi Phở Điện Atlantis Inox 304" class="w-full h-[360px] sm:h-[440px] object-cover" />
-
+        <div class="lg:col-span-4 relative animate-on-scroll flex items-center justify-center">
+          <div
+            class="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-white group cursor-pointer w-full">
+            <img src="image/banneratlantis.png" alt="Showroom Nồi Phở Điện Atlantis Inox 304"
+              class="w-full h-auto object-contain transition-transform duration-500 group-hover:scale-105" />
           </div>
         </div>
       </div>
+    </div>
   </section>
 
-  <!-- ======================== 2.5. TRUST BAR ======================== -->
   <section class="bg-white border-b border-gray-100 py-6 lg:py-8 shadow-sm relative z-10">
     <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-y-8 gap-x-4">
@@ -624,105 +637,10 @@
         </p>
       </div>
 
-      <div class="grid md:grid-cols-3 gap-8 stagger-children">
-        <!-- Testimonial 1 -->
-        <div
-          class="animate-on-scroll bg-brand-sky-light/30 rounded-3xl p-8 border border-blue-100 shadow-sm flex flex-col justify-between">
-          <div>
-            <div class="flex items-center gap-1 text-amber-500 mb-4">
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-            </div>
-            <p class="text-navy-800 text-base italic leading-relaxed mb-6">
-              "Tôi dùng bộ nồi phở 30L và 70L của Atlantis được hơn 2 năm nay.
-              Nước sôi cực nhanh, rơ-le ngắt nhiệt tự động nên mỗi tháng tiết
-              kiệm được gần 600k tiền điện so với nồi than ngày xưa. Rất hài
-              lòng!"
-            </p>
-          </div>
-          <div class="flex items-center gap-4 pt-4 border-t border-blue-100">
-            <div
-              class="w-12 h-12 rounded-full bg-brand-blue text-white font-bold flex items-center justify-center text-lg">
-              AN
-            </div>
-            <div>
-              <h4 class="font-extrabold text-brand-blue text-base">
-                Anh Nam (52 tuổi)
-              </h4>
-              <p class="text-xs text-navy-500 font-semibold">
-                Chủ Quán Phở Hà Nội - Cầu Giấy
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Testimonial 2 -->
-        <div
-          class="animate-on-scroll bg-brand-sky-light/30 rounded-3xl p-8 border border-blue-100 shadow-sm flex flex-col justify-between">
-          <div>
-            <div class="flex items-center gap-1 text-amber-500 mb-4">
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-            </div>
-            <p class="text-navy-800 text-base italic leading-relaxed mb-6">
-              "Điều làm tôi thích nhất ở Atlantis là lớp vỏ chống nóng 3 lớp.
-              Nhà đông cháu nhỏ chạy qua lại mà chạm vào vỏ nồi chỉ thấy hơi
-              ấm ấm chứ không lo bỏng. Inox dày dặn, cọ rửa nhanh sạch."
-            </p>
-          </div>
-          <div class="flex items-center gap-4 pt-4 border-t border-blue-100">
-            <div
-              class="w-12 h-12 rounded-full bg-brand-sky text-white font-bold flex items-center justify-center text-lg">
-              CM
-            </div>
-            <div>
-              <h4 class="font-extrabold text-brand-blue text-base">
-                Cô Mai (48 tuổi)
-              </h4>
-              <p class="text-xs text-navy-500 font-semibold">
-                Chủ Quán Bún Bò Huế - Đống Đa
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Testimonial 3 -->
-        <div
-          class="animate-on-scroll bg-brand-sky-light/30 rounded-3xl p-8 border border-blue-100 shadow-sm flex flex-col justify-between">
-          <div>
-            <div class="flex items-center gap-1 text-amber-500 mb-4">
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-              <i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>
-            </div>
-            <p class="text-navy-800 text-base italic leading-relaxed mb-6">
-              "Đặt mua chiếc 100L ninh xương cho chuỗi nhà hàng, kỹ thuật viên
-              bên Atlantis đến tận nơi khảo sát đường điện và lắp Aptomat
-              chống giật miễn phí rất cẩn thận. Dịch vụ hậu mãi 10 điểm!"
-            </p>
-          </div>
-          <div class="flex items-center gap-4 pt-4 border-t border-blue-100">
-            <div
-              class="w-12 h-12 rounded-full bg-brand-blue text-white font-bold flex items-center justify-center text-lg">
-              CC
-            </div>
-            <div>
-              <h4 class="font-extrabold text-brand-blue text-base">
-                Chú Chín (58 tuổi)
-              </h4>
-              <p class="text-xs text-navy-500 font-semibold">
-                Chủ Quán Phở Gia Truyền - Thanh Xuân
-              </p>
-            </div>
-          </div>
+      <div class="overflow-hidden relative w-full py-4" id="testimonials-carousel-container">
+        <!-- Container ẩn các phần tử tràn -->
+        <div id="testimonials-grid" class="flex transition-transform duration-700 ease-in-out">
+          <!-- Testimonials will be generated here by main.js -->
         </div>
       </div>
     </div>
@@ -941,8 +859,8 @@
               <select name="capacity"
                 class="w-full px-5 py-4 bg-gray-50 border-2 border-gray-200 rounded-2xl text-base focus:ring-4 focus:ring-brand-sky/20 focus:border-brand-sky hover:border-brand-sky/50 hover:-translate-y-1 hover:shadow-md focus:-translate-y-1 focus:shadow-md outline-none transition-all duration-300 font-bold text-brand-blue">
                 <option value="30L">Nồi phở 30L - Trụng bánh phở</option>
-                <option value="50L">Nồi phở 50L - Quán vừa</option>
-                <option value="70L" selected>Nồi phở 70L - Quán đông</option>
+                <option value="50L" selected>Nồi phở 50L - Quán vừa</option>
+                <option value="70L">Nồi phở 70L - Quán đông</option>
                 <option value="100L">Nồi phở 100L - Quán lớn</option>
                 <option value="160L">Nồi phở 160L - Bếp ăn / Nhà hàng</option>
               </select>
@@ -982,13 +900,13 @@
   </section>
 
   <!-- ======================== 8. FOOTER (THEO MẪU CHUẨN FIGMA) ======================== -->
-  <footer class="bg-brand-blue-dark text-white py-16 border-t border-white/10">
+  <footer class="bg-[#1f2937] text-white py-16 border-t border-white/10">
     <div class="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-12">
       <div class="grid md:grid-cols-3 gap-12 items-start pb-12 border-b border-white/10">
         <!-- Column 1: Brand Info -->
         <div>
-          <div class="flex items-center gap-3 mb-4">
-            <img src="image/logo-atlantis.png" alt="Atlantis Logo" class="h-14 w-auto" />
+          <div class="flex items-center mb-4">
+            <img src="image/logo-atlantis.png" alt="Atlantis Logo" class="bg-white h-14 w-auto " />
           </div>
           <p class="text-blue-100 text-base leading-relaxed mb-4">
             Thương hiệu thiết bị bếp Inox cao cấp. Chuyên sản xuất & phân phối
@@ -1076,14 +994,16 @@
               Nồi nấu phở tủ điện rời 20 lít
             </h3>
           </div>
-          <div class="border border-gray-200 p-2 rounded-lg relative flex flex-1">
+          <div class="border border-gray-200 rounded-lg relative flex flex-1 overflow-hidden min-h-[400px]">
             <!-- Main Image -->
-            <div class="w-3/4 flex items-center justify-center bg-white p-2 relative group cursor-pointer"
-              onclick="openVideoIfAvailable()">
-              <img id="modal-image" src="" class="w-full h-auto object-contain" />
+            <div class="w-3/4 flex items-center justify-center bg-white relative group cursor-pointer overflow-hidden"
+              id="main-image-container" onclick="handleMainImageClick()">
+              <img id="modal-image" src=""
+                class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+
               <!-- Play button overlay for video (hidden by default) -->
               <div id="modal-video-overlay"
-                class="absolute inset-0 flex items-center justify-center bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity hidden">
+                class="absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity hidden z-10">
                 <div
                   class="w-16 h-16 bg-white/90 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform">
                   <i data-lucide="play" class="w-8 h-8 text-brand-blue fill-brand-blue ml-1"></i>
@@ -1091,7 +1011,7 @@
               </div>
             </div>
             <!-- Thumbnails -->
-            <div class="w-1/4 border-l border-gray-200 flex flex-col gap-2 p-2" id="modal-thumbnails">
+            <div class="w-1/4 border-l border-gray-200 flex flex-col gap-2 p-2 overflow-y-auto" id="modal-thumbnails">
               <!-- Populated by JS -->
             </div>
           </div>
@@ -1141,7 +1061,7 @@
             </div>
             <div class="flex border-b border-gray-200">
               <div class="w-2/5 bg-gray-50 p-3 font-semibold text-gray-700">
-                Chất liệu chính
+                Chất liệu
               </div>
               <div id="modal-material" class="w-3/5 bg-white p-3 font-medium text-gray-800"></div>
             </div>
@@ -1186,8 +1106,10 @@
         <div class="flex flex-col md:flex-row items-center justify-center gap-6 w-full max-w-2xl mb-4 relative z-10">
           <!-- Price block -->
           <div class="text-center md:text-right" id="modal-price-container">
-            <div class="text-gray-400 line-through text-base font-medium mb-1" id="modal-old-price"></div>
-            <div class="text-2xl md:text-3xl font-black text-red-600" id="modal-new-price"></div>
+            <div class="text-gray-500 text-sm md:text-base font-medium mb-0.5">
+              Giá gốc:
+            </div>
+            <div class="text-2xl md:text-3xl font-black text-gray-800" id="modal-old-price"></div>
           </div>
 
           <div class="hidden md:block w-px h-12 bg-gray-300"></div>
@@ -1234,9 +1156,13 @@
             GIẢM 20%
           </div>
           <a href="javascript:void(0)" onclick="closeProductModal(); openOrderModal()" id="modal-buy-btn"
-            class="w-full bg-red-700 hover:bg-red-800 text-white px-8 py-3 rounded-full font-bold text-lg md:text-xl flex items-center justify-center gap-3 transition-transform hover:scale-105 shadow-lg">
-            <i data-lucide="shopping-cart" class="w-6 h-6"></i>
-            ĐẶT MUA NGAY
+            class="w-full bg-red-700 hover:bg-red-800 text-white px-8 py-2.5 rounded-full transition-transform hover:scale-105 shadow-lg flex flex-col items-center justify-center">
+            <div class="flex items-center justify-center gap-2 font-bold text-base md:text-lg uppercase">
+              <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+              <span>ĐẶT MUA NGAY</span>
+            </div>
+            <span class="text-yellow-300 font-black text-xl md:text-2xl leading-none drop-shadow-md mt-0.5"
+              id="modal-new-price"></span>
           </a>
         </div>
       </div>
@@ -1251,6 +1177,7 @@
 
   <!-- JavaScript -->
   <script src="products.js"></script>
+  <script src="testimonials.js"></script>
   <script src="main.js"></script>
 </body>
 

@@ -150,9 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
                 navLinks.forEach(link => {
                     if (link.getAttribute('href') === `#${sectionId}`) {
-                        link.classList.add('bg-white/10', 'text-white');
+                        link.classList.add('bg-brand-sky', 'text-white', 'shadow-md');
+                        link.classList.remove('text-navy-700', 'bg-brand-sky-light/50', 'text-brand-blue');
                     } else {
-                        link.classList.remove('bg-white/10');
+                        link.classList.remove('bg-brand-sky', 'text-white', 'shadow-md', 'text-brand-blue', 'bg-brand-sky-light/50');
+                        link.classList.add('text-navy-700');
                     }
                 });
             }
@@ -225,21 +227,23 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     <div class="p-3 md:p-6 pt-0">
-                        <div class="mb-4">
-                            <span class="text-gray-400 line-through text-sm font-medium mr-2">${p.oldPrice}</span>
-                            <span class="text-lg md:text-2xl font-black text-red-600">${p.newPrice}</span>
+                        <div class="mb-3">
+                            <span class="text-gray-500 text-sm font-medium">Giá gốc: <span class="line-through">${p.oldPrice}</span></span>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
-                            <div class="relative w-full">
+                            <div class="relative w-full h-full">
                                 ${discountHtml}
                                 <a href="javascript:void(0)" onclick="selectCapacityInForm('${p.capacity}L'); openOrderModal()"
-                                    class="bg-brand-blue hover:bg-brand-blue-dark text-white text-center py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 w-full relative z-10">
-                                    <i data-lucide="shopping-cart" class="w-4 h-4"></i>
-                                    <span>Đặt Mua</span>
+                                    class="bg-brand-blue hover:bg-brand-blue-dark text-white text-center py-2 rounded-xl transition-all flex flex-col items-center justify-center w-full h-full min-h-[3.25rem] relative z-10">
+                                    <div class="flex items-center gap-1 text-[12px] font-semibold opacity-90 mb-0.5 uppercase">
+                                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
+                                        <span>Đặt mua ngay</span>
+                                    </div>
+                                    <span class="text-yellow-300 font-black text-sm md:text-[15px] leading-none drop-shadow-md">${p.newPrice}</span>
                                 </a>
                             </div>
                             <button onclick="openProductModal('${p.id}')"
-                                class="bg-blue-50 border border-brand-blue text-brand-blue hover:bg-blue-100 text-center py-3 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 w-full">
+                                class="bg-blue-50 border border-brand-blue text-brand-blue hover:bg-blue-100 text-center py-2 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-1.5 w-full h-full min-h-[3.25rem]">
                                 <i data-lucide="info" class="w-4 h-4"></i>
                                 <span>Xem Chi Tiết</span>
                             </button>
@@ -267,6 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initial render
     renderProducts('all');
+    renderTestimonials();
 
     if (capacityBtns) {
         capacityBtns.forEach(btn => {
@@ -283,6 +288,186 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderProducts(selectedCap);
             });
         });
+    }
+
+    function renderTestimonials() {
+        const container = document.getElementById('testimonials-grid');
+        const carouselContainer = document.getElementById('testimonials-carousel-container');
+        if (!container || typeof testimonialsData === 'undefined') return;
+
+        let html = '';
+
+        testimonialsData.forEach((t) => {
+            let starsHtml = '';
+            for (let i = 0; i < t.stars; i++) {
+                starsHtml += `<i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>\n`;
+            }
+
+            // Dùng padding (px-3 md:px-4) thay vì gap để giữ kích thước % chuẩn cho slider
+            html += `
+            <div class="w-full md:w-1/3 shrink-0 px-3 md:px-4 py-2 flex">
+              <div class="bg-brand-sky-light/30 rounded-3xl p-6 md:p-8 border border-blue-100 shadow-sm flex flex-col justify-between whitespace-normal w-full">
+                <div>
+                  <div class="flex items-center gap-1 text-amber-500 mb-4">
+                    ${starsHtml}
+                  </div>
+                  <p class="text-navy-800 text-base italic leading-relaxed mb-6">
+                    "${t.content}"
+                  </p>
+                </div>
+                <div class="flex items-center gap-4 pt-4 border-t border-blue-100">
+                  ${t.avatar ? 
+                    `<img src="${t.avatar}" alt="${t.name}" class="w-12 h-12 rounded-full object-cover border border-gray-200">` : 
+                    `<div class="w-12 h-12 rounded-full ${t.initialsBg} text-white font-bold flex items-center justify-center text-lg">${t.initials}</div>`
+                  }
+                  <div>
+                    <h4 class="font-extrabold text-brand-blue text-base">
+                      ${t.name}
+                    </h4>
+                    <p class="text-xs text-navy-500 font-semibold">
+                      ${t.role}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>`;
+        });
+
+        container.innerHTML = html;
+        
+        // Re-initialize icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // Logic Slider / Carousel
+        const totalItems = testimonialsData.length;
+        let currentIndex = 0;
+        let itemsPerView = window.innerWidth >= 768 ? 3 : 1;
+
+        function updateSlider() {
+            if (totalItems <= itemsPerView) {
+                container.style.transform = `translateX(0%)`;
+                return;
+            }
+            if (currentIndex > totalItems - itemsPerView) {
+                currentIndex = 0; // Kéo lại bình luận 1
+            }
+            
+            const percentage = -(currentIndex * (100 / itemsPerView));
+            container.style.transform = `translateX(${percentage}%)`;
+        }
+
+        // Auto slide mỗi 3.5 giây
+        let sliderInterval = setInterval(() => {
+            if (totalItems > itemsPerView) {
+                currentIndex++;
+                updateSlider();
+            }
+        }, 3500);
+
+        // Tạm dừng khi di chuột vào slider
+        if (carouselContainer) {
+            carouselContainer.addEventListener('mouseenter', () => clearInterval(sliderInterval));
+            carouselContainer.addEventListener('mouseleave', () => {
+                if (!isDragging) {
+                    sliderInterval = setInterval(() => {
+                        if (totalItems > itemsPerView) {
+                            currentIndex++;
+                            updateSlider();
+                        }
+                    }, 3500);
+                }
+            });
+        }
+
+        // Xử lý khi thay đổi kích thước màn hình
+        window.addEventListener('resize', () => {
+            itemsPerView = window.innerWidth >= 768 ? 3 : 1;
+            if (currentIndex > totalItems - itemsPerView) {
+                currentIndex = Math.max(0, totalItems - itemsPerView);
+            }
+            updateSlider();
+        });
+
+        // --- HỖ TRỢ KÉO / VUỐT (DRAG & SWIPE) ---
+        let isDragging = false;
+        let startPos = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let diffX = 0;
+
+        function getPositionX(event) {
+            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+        }
+
+        function touchStart(index) {
+            return function (event) {
+                isDragging = true;
+                startPos = getPositionX(event);
+                clearInterval(sliderInterval);
+                
+                // Loại bỏ CSS transition để khối trượt mượt theo ngón tay/chuột
+                container.classList.remove('transition-transform', 'duration-700');
+                container.style.cursor = 'grabbing';
+            }
+        }
+
+        function touchMove(event) {
+            if (isDragging) {
+                const currentPosition = getPositionX(event);
+                diffX = currentPosition - startPos;
+                
+                // Tính toán phần trăm dịch chuyển
+                const containerWidth = carouselContainer.offsetWidth;
+                const basePercentage = -(currentIndex * (100 / itemsPerView));
+                const diffPercentage = (diffX / containerWidth) * 100;
+                
+                container.style.transform = `translateX(calc(${basePercentage}% + ${diffPercentage}%))`;
+            }
+        }
+
+        function touchEnd() {
+            if (!isDragging) return;
+            isDragging = false;
+            container.classList.add('transition-transform', 'duration-700');
+            container.style.cursor = 'grab';
+
+            // Vuốt sang trái (next)
+            if (diffX < -50 && currentIndex < totalItems - itemsPerView) {
+                currentIndex++;
+            }
+            // Vuốt sang phải (prev)
+            else if (diffX > 50 && currentIndex > 0) {
+                currentIndex--;
+            }
+
+            updateSlider();
+            diffX = 0; // Reset diff
+
+            // Bật lại auto slide
+            clearInterval(sliderInterval);
+            sliderInterval = setInterval(() => {
+                if (totalItems > itemsPerView) {
+                    currentIndex++;
+                    updateSlider();
+                }
+            }, 3500);
+        }
+
+        // Mouse events
+        container.addEventListener('mousedown', touchStart(currentIndex));
+        container.addEventListener('mousemove', touchMove);
+        container.addEventListener('mouseup', touchEnd);
+        container.addEventListener('mouseleave', touchEnd);
+
+        // Touch events
+        container.addEventListener('touchstart', touchStart(currentIndex), { passive: true });
+        container.addEventListener('touchmove', touchMove, { passive: true });
+        container.addEventListener('touchend', touchEnd);
+        
+        // Thêm class cursor-grab mặc định
+        container.classList.add('cursor-grab');
     }
 
 
@@ -308,23 +493,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const fullname = form.querySelector('input[name="fullname"]').value.trim();
             const phone = form.querySelector('input[name="phone"]').value.trim();
-
-            const selectedProducts = [];
-            if (typeof productsData !== 'undefined') {
-                productsData.forEach(p => {
-                    const qtyInput = document.getElementById('qty-' + p.id);
-                    if (qtyInput) {
-                        const qty = parseInt(qtyInput.value) || 0;
-                        if (qty > 0) selectedProducts.push(p.name + ' - SL: ' + qty);
-                    }
-                });
+            
+            const addressInput = form.querySelector('input[name="address"]');
+            const address = addressInput ? addressInput.value.trim() : '';
+            
+            const capacitySelect = form.querySelector('select[name="capacity"]');
+            const capacityText = capacitySelect ? capacitySelect.options[capacitySelect.selectedIndex].text : 'Chưa chọn sản phẩm';
+            const capacityVal = capacitySelect ? capacitySelect.value : '';
+            
+            let voucherText = 'Không có';
+            let productName = capacityText;
+            let price = '';
+            
+            if (capacityVal && typeof productsData !== 'undefined') {
+                const capNum = parseInt(capacityVal.replace('L', ''));
+                const product = productsData.find(p => p.capacity === capNum);
+                if (product) {
+                    productName = product.name;
+                    voucherText = product.voucher || 'Không có';
+                    price = product.newPrice || '';
+                }
             }
-            const qtyCombo = document.getElementById('qty-combo');
-            if (qtyCombo) {
-                const qty = parseInt(qtyCombo.value) || 0;
-                if (qty > 0) selectedProducts.push('Bộ 2 Nồi (30L + 70L) - SL: ' + qty);
-            }
-            const capacityText = selectedProducts.length > 0 ? selectedProducts.join(', ') : 'Chưa chọn sản phẩm';
 
             if (!fullname || !phone) {
                 alert('Vui lòng điền đầy đủ Họ và tên và Số điện thoại!');
@@ -337,6 +526,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 alert('Vui lòng nhập số điện thoại hợp lệ (Ví dụ: 0912345678)');
                 return;
             }
+
+            // --- LẤY DỮ LIỆU VÀ IN RA CONSOLE ---
+            const formData = {
+                'Họ và tên': fullname,
+                'Số điện thoại': phone,
+                'Địa chỉ': address,
+                'Sản phẩm quan tâm': productName,
+                'Mức giá': price,
+                'Khuyến mãi được hưởng': voucherText,
+                'Loại yêu cầu': clickedAction === 'order' ? 'Đặt hàng' : 'Tư vấn',
+                'Thời gian': new Date().toLocaleString('vi-VN')
+            };
+
+            console.log('===== DỮ LIỆU ĐĂNG KÝ MỚI =====');
+            console.table(formData);
+            console.log('JSON Data:', JSON.stringify(formData));
+            // ------------------------------------
 
             const activeBtn = clickedAction === 'order' ? btnOrderNow : btnRequestCall;
             const originalBtnHtml = activeBtn.innerHTML;
@@ -351,27 +557,18 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
 
             setTimeout(() => {
-                form.style.display = 'none';
-                if (formSuccess) {
-                    formSuccess.classList.remove('hidden');
+                // Đóng popup nếu đang ở trong popup
+                if (typeof closeProductModal === 'function') {
+                    closeProductModal();
                 }
-
-                if (typeof lucide !== 'undefined') {
-                    lucide.createIcons();
+                const orderModal = document.getElementById('order-modal');
+                if (orderModal && !orderModal.classList.contains('hidden')) {
+                    orderModal.classList.add('hidden');
                 }
-
-                setTimeout(() => {
-                    form.style.display = 'block';
-                    form.reset();
-                    if (formSuccess) {
-                        formSuccess.classList.add('hidden');
-                    }
-                    activeBtn.disabled = false;
-                    activeBtn.innerHTML = originalBtnHtml;
-                    if (typeof lucide !== 'undefined') {
-                        lucide.createIcons();
-                    }
-                }, 5000);
+                
+                // Chuyển hướng sang trang cảm ơn
+                window.location.href = 'thankyou.html';
+                
             }, 1200);
         });
     });
@@ -407,6 +604,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // ======================== MODAL LOGIC ========================
 let countdownInterval;
+let currentMainImageUrl = "";
+let currentMainImageIsVideo = false;
+
+window.selectThumbnail = function(thumbUrl, isVideo) {
+    currentMainImageUrl = thumbUrl;
+    currentMainImageIsVideo = isVideo;
+    
+    const imgEl = document.getElementById('modal-image');
+    if (imgEl) imgEl.src = thumbUrl;
+    
+    const videoOverlay = document.getElementById('modal-video-overlay');
+    if (videoOverlay) {
+        if (isVideo) {
+            videoOverlay.classList.remove('hidden');
+        } else {
+            videoOverlay.classList.add('hidden');
+        }
+    }
+};
+
+window.handleMainImageClick = function() {
+    if (currentMainImageIsVideo) {
+        window.openVideoIfAvailable();
+    } else {
+        if (typeof Fancybox !== 'undefined') {
+            Fancybox.show([{ src: currentMainImageUrl, type: "image" }]);
+        }
+    }
+};
 
 window.openProductModal = function (productId) {
     if (typeof productsData === 'undefined') return;
@@ -415,7 +641,12 @@ window.openProductModal = function (productId) {
 
     // Populate text data
     document.getElementById('modal-title').textContent = product.name;
-    document.getElementById('modal-image').src = product.image;
+    
+    // Khởi tạo ảnh đầu tiên (video hoặc ảnh thường)
+    const hasVideo = product.hasVideo === true;
+    const firstImage = product.thumbnails && product.thumbnails.length > 0 ? product.thumbnails[0] : product.image;
+    window.selectThumbnail(firstImage, hasVideo);
+    
     document.getElementById('modal-image').alt = product.name;
 
     // Populate specs
@@ -486,10 +717,10 @@ window.openProductModal = function (productId) {
         thumbsContainer.innerHTML = '';
         product.thumbnails.forEach((thumb, idx) => {
             const isVideo = idx === 0 && product.hasVideo;
-            const opacityClass = idx === product.thumbnails.length - 1 ? 'opacity-50' : '';
             const html = `
-                <div class="relative w-full border border-gray-200 rounded overflow-hidden cursor-pointer hover:border-brand-blue ${opacityClass}">
-                    <img src="${thumb}" class="w-full h-auto object-cover">
+                <div class="relative w-full aspect-square border border-gray-200 rounded overflow-hidden cursor-pointer hover:border-brand-blue group shrink-0"
+                     onclick="selectThumbnail('${thumb}', ${isVideo})">
+                    <img src="${thumb}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-300 group-hover:scale-110">
                     ${isVideo ? '<div class="absolute inset-0 flex items-center justify-center bg-black/20"><i data-lucide="play-circle" class="w-6 h-6 text-white drop-shadow"></i></div>' : ''}
                 </div>
             `;
