@@ -35,7 +35,7 @@ function renderOrderProductsList() {
                     <img src="${p.image}" class="w-12 h-12 rounded object-cover border border-gray-200">
                     <div>
                         <div class="font-bold text-sm text-gray-800">${p.name}</div>
-                        <div class="text-xs font-bold text-red-600">${p.newPrice}</div>
+                        <div class="text-xs font-bold text-bule-600">${p.newPrice}</div>
                     </div>
                 </div>
                 <div class="flex items-center bg-gray-100 rounded-lg">
@@ -55,7 +55,7 @@ function renderOrderProductsList() {
                     </div>
                     <div>
                         <div class="font-bold text-sm text-gray-800">Bộ 2 Nồi (30L + 70L)</div>
-                        <div class="text-xs font-bold text-red-600">Liên hệ</div>
+                        <div class="text-xs font-bold text-bule-600">Liên hệ</div>
                     </div>
                 </div>
                 <div class="flex items-center bg-gray-100 rounded-lg">
@@ -272,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initial render
     renderProducts('all');
     renderTestimonials();
+    renderReasons();
 
     if (capacityBtns) {
         capacityBtns.forEach(btn => {
@@ -288,6 +289,43 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderProducts(selectedCap);
             });
         });
+    }
+
+    function renderReasons() {
+        const grid = document.getElementById('reasons-grid');
+        if (!grid || typeof reasonsData === 'undefined') return;
+
+        let html = '';
+        reasonsData.forEach((reason) => {
+            html += `
+            <div class="relative pt-6 animate-on-scroll group cursor-pointer">
+              <div class="absolute top-0 left-1/2 -translate-x-1/2 w-12 h-12 bg-white rounded-full border-[3px] border-blue-600 flex items-center justify-center text-blue-600 text-2xl font-black shadow-sm z-10">
+                ${reason.id}
+              </div>
+              <div class="bg-blue-600 border-[3px] border-blue-600 rounded-2xl flex flex-col h-full shadow-lg group-hover:-translate-y-1.5 transition-transform duration-300">
+                <div class="bg-white rounded-t-[0.85rem] p-1.5 w-full">
+                  <div class="w-full aspect-square md:aspect-auto md:h-48 overflow-hidden rounded-lg bg-gray-50">
+                    <img src="${reason.image}" alt="${reason.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                  </div>
+                </div>
+                <div class="p-4 text-center min-h-[5rem] flex items-center justify-center">
+                  <h3 class="text-[1rem] md:text-[1.05rem] font-black text-white uppercase leading-snug">
+                    ${reason.title}
+                  </h3>
+                </div>
+              </div>
+            </div>
+            `;
+        });
+        grid.innerHTML = html;
+        
+        // Kích hoạt hiệu ứng cuộn cho các thẻ vừa tạo
+        setTimeout(() => {
+            const els = document.querySelectorAll('#reasons-grid .animate-on-scroll');
+            els.forEach(el => {
+                el.classList.add('visible');
+            });
+        }, 50);
     }
 
     function renderTestimonials() {
@@ -358,25 +396,26 @@ document.addEventListener('DOMContentLoaded', () => {
             container.style.transform = `translateX(${percentage}%)`;
         }
 
-        // Auto slide mỗi 3.5 giây
+        // Auto slide mỗi 5 giây
         let sliderInterval = setInterval(() => {
             if (totalItems > itemsPerView) {
                 currentIndex++;
                 updateSlider();
             }
-        }, 3500);
+        }, 5000);
 
         // Tạm dừng khi di chuột vào slider
         if (carouselContainer) {
             carouselContainer.addEventListener('mouseenter', () => clearInterval(sliderInterval));
             carouselContainer.addEventListener('mouseleave', () => {
                 if (!isDragging) {
+                    clearInterval(sliderInterval); // Đảm bảo không bị trùng lặp interval
                     sliderInterval = setInterval(() => {
                         if (totalItems > itemsPerView) {
                             currentIndex++;
                             updateSlider();
                         }
-                    }, 3500);
+                    }, 5000);
                 }
             });
         }
@@ -403,18 +442,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function touchStart(index) {
             return function (event) {
+                if (event.type === 'mousedown') {
+                    event.preventDefault(); // Prevent native image drag / text selection
+                }
                 isDragging = true;
                 startPos = getPositionX(event);
                 clearInterval(sliderInterval);
                 
                 // Loại bỏ CSS transition để khối trượt mượt theo ngón tay/chuột
-                container.classList.remove('transition-transform', 'duration-700');
+                container.classList.remove('transition-transform', 'duration-1000');
                 container.style.cursor = 'grabbing';
             }
         }
 
         function touchMove(event) {
             if (isDragging) {
+                if (event.type === 'mousemove') {
+                    event.preventDefault();
+                }
                 const currentPosition = getPositionX(event);
                 diffX = currentPosition - startPos;
                 
@@ -430,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
         function touchEnd() {
             if (!isDragging) return;
             isDragging = false;
-            container.classList.add('transition-transform', 'duration-700');
+            container.classList.add('transition-transform', 'duration-1000');
             container.style.cursor = 'grab';
 
             // Vuốt sang trái (next)
@@ -452,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     currentIndex++;
                     updateSlider();
                 }
-            }, 3500);
+            }, 5000);
         }
 
         // Mouse events
@@ -650,13 +695,11 @@ window.openProductModal = function (productId) {
     document.getElementById('modal-image').alt = product.name;
 
     // Populate specs
-    document.getElementById('modal-model').textContent = product.specs.model || '';
     document.getElementById('modal-voltage').textContent = product.specs.voltage || '';
     document.getElementById('modal-power').textContent = product.specs.power || '';
     document.getElementById('modal-capacity').textContent = product.specs.capacityText || '';
     document.getElementById('modal-yield').textContent = product.specs.yield || '';
     document.getElementById('modal-temp').textContent = product.specs.temp || '';
-    document.getElementById('modal-material').textContent = product.specs.material || '';
     document.getElementById('modal-weight').textContent = product.specs.weight || '';
     document.getElementById('modal-dimensions').textContent = product.specs.dimensions || '';
     document.getElementById('modal-warranty').textContent = product.specs.warranty || '';

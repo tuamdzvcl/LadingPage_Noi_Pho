@@ -18,14 +18,13 @@ const productsData = [
     badgeColor: "bg-brand-blue",
     voucher: "Giảm 32% & Tặng Voucher Miễn phí vận chuyển",
     specs: {
-      model: "ATL-30L",
       voltage: "220V/50Hz",
       power: "1 mâm 3kw",
       capacityText: "30 lít",
       yield: "Trụng bánh phở, bò",
-      temp: "Tối đa 110 độ C",
+      temp: "30- 110 độ C",
       insulation: "Foam cách nhiệt 3cm",
-      material: "Inox 304",
+
       weight: "11kg",
       dimensions: "41x41x70cm",
       brand: "ATLANTIS",
@@ -53,14 +52,13 @@ const productsData = [
 
     voucher: "Tặng Voucher 26% & Giỏ linh xương",
     specs: {
-      model: "ATL-50L",
       voltage: "220V/50Hz",
       power: "1 mâm 3kw",
       capacityText: "50 lít",
       yield: "80 - 120 bát phở",
-      temp: "Tối đa 110 độ C",
+      temp: "30- 110 độ C",
       insulation: "Foam cách nhiệt 3cm",
-      material: "Inox 304",
+
       weight: "15kg",
       dimensions: "46x46x75cm",
       brand: "ATLANTIS",
@@ -87,14 +85,13 @@ const productsData = [
     customBorder: "border-2 border-brand-sky",
     voucher: "Giảm sốc 18% - Tặng Giỏ linh xương",
     specs: {
-      model: "ATL-70L",
       voltage: "220V / 380V",
       power: " 2 mâm 3kw. 1 mâm 1kw",
       capacityText: "70 lít",
       yield: "120 - 150 bát phở",
-      temp: "Tối đa 110 độ C",
+      temp: "30- 110 độ C",
       insulation: "Foam cách nhiệt 3cm",
-      material: "Inox 304",
+
       weight: "18kg",
       dimensions: "51x51x80m",
       brand: "ATLANTIS",
@@ -120,14 +117,13 @@ const productsData = [
     badgeColor: "bg-brand-blue",
     voucher: "Tặng Voucher 500k & Rổ nhúng",
     specs: {
-      model: "ATL-100L",
       voltage: "220V / 380V",
       power: "2 mâm 3kw. 1 mâm 1kw",
       capacityText: "100 lít",
       yield: "200 - 300 bát phở",
-      temp: "Tối đa 110 độ C",
+      temp: "30- 110 độ C",
       insulation: "Foam cách nhiệt 3cm",
-      material: "Inox 304",
+
       weight: "23kg",
       dimensions: "56x56x85cm",
       brand: "ATLANTIS",
@@ -153,14 +149,13 @@ const productsData = [
     badgeColor: "bg-brand-blue",
     voucher: "Tặng Voucher 600k & Ống trụng tròn",
     specs: {
-      model: "ATL-120L",
       voltage: "220V / 380V",
       power: " 2 mâm 3kw. 1 mâm 1kw",
       capacityText: "120 lít",
       yield: "200 - 300 bát phở",
-      temp: "Tối đa 110 độ C",
+      temp: "30- 110 độ C",
       insulation: "Foam cách nhiệt 3cm",
-      material: "Inox 304",
+
       weight: "25kg",
       dimensions: "56x56x95cm",
       brand: "ATLANTIS",
@@ -186,15 +181,14 @@ const productsData = [
     badgeColor: "bg-brand-blue",
     voucher: "Tặng Voucher 1.000.000đ - Miễn phí vận chuyển toàn quốc",
     specs: {
-      model: "ATL-160L",
       voltage: "380V (3 Pha)",
       power: "3 mâm 3kw. 1 mâm 1kw",
       capacityText: "160 lít",
       yield:
         "Nấu nước dùng. ninh xương. luộc đồ. luộc bánh trưng. hấp đồ. nấu canh",
-      temp: "Tối đa 110 độ C",
+      temp: "30- 110 độ C",
       insulation: "Foam cách nhiệt 3cm",
-      material: "Inox 304",
+
       weight: "30kg",
       dimensions: "66x66x95cm",
       brand: "ATLANTIS",

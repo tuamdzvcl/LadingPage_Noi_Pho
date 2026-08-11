@@ -462,71 +462,8 @@
         </p>
       </div>
 
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 stagger-children">
-        <!-- Reason 1 -->
-        <div
-          class="animate-on-scroll bg-brand-sky-light/40 rounded-2xl p-8 border border-blue-100 hover:border-brand-sky transition-all duration-300">
-          <div
-            class="w-16 h-16 rounded-2xl bg-brand-blue text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-brand-blue/20">
-            01
-          </div>
-          <h3 class="text-xl font-bold text-brand-blue mb-3">
-            Inox 304 Dày 1.2mm Cao Cấp
-          </h3>
-          <p class="text-navy-600 text-base leading-relaxed">
-            Tuyệt đối không hoen gỉ, không biến dạng ở nhiệt độ cao. Đảm bảo
-            an toàn vệ sinh thực phẩm và tuổi thọ sản phẩm trên 10 năm.
-          </p>
-        </div>
-
-        <!-- Reason 2 -->
-        <div
-          class="animate-on-scroll bg-brand-sky-light/40 rounded-2xl p-8 border border-blue-100 hover:border-brand-sky transition-all duration-300">
-          <div
-            class="w-16 h-16 rounded-2xl bg-brand-sky text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-brand-sky/20">
-            02
-          </div>
-          <h3 class="text-sm font-bold text-brand-blue mb-3">
-            Tiết Kiệm 30% Điện Năng
-          </h3>
-          <p class="text-navy-600 text-base leading-relaxed">
-            Công nghệ thanh nhiệt kép thông minh. Tự động ngắt 1 thanh nhiệt
-            khi nước đã sôi để chuyển sang chế độ ninh ủ tiết kiệm điện tối
-            đa.
-          </p>
-        </div>
-
-        <!-- Reason 3 -->
-        <div
-          class="animate-on-scroll bg-brand-sky-light/40 rounded-2xl p-8 border border-blue-100 hover:border-brand-sky transition-all duration-300">
-          <div
-            class="w-16 h-16 rounded-2xl bg-brand-blue text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-brand-blue/20">
-            03
-          </div>
-          <h3 class="text-xl font-bold text-brand-blue mb-3">
-            Cách Nhiệt Polyurethane An Toàn
-          </h3>
-          <p class="text-navy-600 text-base leading-relaxed">
-            Thiết kế 3 lớp giữ nhiệt cực tốt. Vỏ ngoài luôn mát chạm vào không
-            lo bị nóng hay pop bỏng tay trong quá trình đứng bếp.
-          </p>
-        </div>
-
-        <!-- Reason 4 -->
-        <div
-          class="animate-on-scroll bg-brand-sky-light/40 rounded-2xl p-8 border border-blue-100 hover:border-brand-sky transition-all duration-300">
-          <div
-            class="w-16 h-16 rounded-2xl bg-brand-sky text-white flex items-center justify-center text-2xl font-black mb-6 shadow-lg shadow-brand-sky/20">
-            04
-          </div>
-          <h3 class="text-xl font-bold text-brand-blue mb-3">
-            Hậu Mãi & Bảo Hành Tận Nơi 5 Năm
-          </h3>
-          <p class="text-navy-600 text-base leading-relaxed">
-            Bảo hành 5 năm cho thân vỏ Inox, 12 tháng cho hệ thống điện. Đội
-            ngũ kỹ thuật hỗ trợ tận nhà nhanh chóng trong vòng 24h.
-          </p>
-        </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 px-2 md:px-0 mt-8 stagger-children" id="reasons-grid">
+        <!-- Reasons will be injected here by main.js -->
       </div>
     </div>
   </section>
@@ -639,7 +576,7 @@
 
       <div class="overflow-hidden relative w-full py-4" id="testimonials-carousel-container">
         <!-- Container ẩn các phần tử tràn -->
-        <div id="testimonials-grid" class="flex transition-transform duration-700 ease-in-out">
+        <div id="testimonials-grid" class="flex transition-transform duration-1000 ease-in-out">
           <!-- Testimonials will be generated here by main.js -->
         </div>
       </div>
@@ -1023,12 +960,7 @@
             THÔNG SỐ SẢN PHẨM
           </h4>
           <div class="border border-gray-200 rounded-lg overflow-hidden text-sm md:text-base">
-            <div class="flex border-b border-gray-200">
-              <div class="w-2/5 bg-gray-50 p-3 font-semibold text-gray-700">
-                Model
-              </div>
-              <div id="modal-model" class="w-3/5 bg-white p-3 font-medium text-gray-800"></div>
-            </div>
+            
             <div class="flex border-b border-gray-200">
               <div class="w-2/5 bg-gray-50 p-3 font-semibold text-gray-700">
                 Điện áp
@@ -1059,12 +991,7 @@
               </div>
               <div id="modal-temp" class="w-3/5 bg-white p-3 font-medium text-gray-800"></div>
             </div>
-            <div class="flex border-b border-gray-200">
-              <div class="w-2/5 bg-gray-50 p-3 font-semibold text-gray-700">
-                Chất liệu
-              </div>
-              <div id="modal-material" class="w-3/5 bg-white p-3 font-medium text-gray-800"></div>
-            </div>
+            
             <div class="flex border-b border-gray-200">
               <div class="w-2/5 bg-gray-50 p-3 font-semibold text-gray-700">
                 Trọng lượng
@@ -1178,6 +1105,7 @@
   <!-- JavaScript -->
   <script src="products.js"></script>
   <script src="testimonials.js"></script>
+  <script src="reasons.js"></script>
   <script src="main.js"></script>
 </body>
 
