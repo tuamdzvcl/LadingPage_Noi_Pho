@@ -1,22 +1,22 @@
 const reasonsData = [
     {
         id: 1,
-        image: "image/banner.jpg",
-        title: "Inox 304 Dày 1.2mm Cao Cấp"
+        image: "image/mamnhiet.png",
+        title: "Đun sôi siêu tốc với mầm nhiệt chống cháy độc quyền "
     },
     {
         id: 2,
-        image: "image/admin-ajax.jpg",
-        title: "Tiết Kiệm 30% Điện Năng"
+        image: "image/dungtich.png",
+        title: "Đa dạng dung tích từ 30L-160L"
     },
     {
         id: 3,
-        image: "image/admin-ajax.jpg",
-        title: "Cách Nhiệt Polyurethane An Toàn"
+        image: "image/inox.png",
+        title: "Inox cao cấp không gỉ"
     },
     {
         id: 4,
-        image: "image/admin-ajax.jpg",
-        title: "Hậu Mãi & Bảo Hành Tận Nơi 5 Năm"
+        image: "image/ship.jpg",
+        title: "Bảo Hành 18 tháng toàn quốc"
     }
 ];

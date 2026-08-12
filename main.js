@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div>
                         <div class="relative h-36 md:h-64 bg-slate-50 flex items-center justify-center p-3 md:p-6 border-b border-gray-100 cursor-pointer group" onclick="openProductModal('${p.id}')">
                             <span class="absolute top-4 left-4 z-10 ${p.badgeColor} text-white text-[0.65rem] md:text-xs font-black px-2 md:px-3 py-1 md:py-1.5 rounded-lg uppercase">${p.badge}</span>
-                            <img src="${p.image}" alt="${p.name}" class="h-full w-auto object-contain transition-transform duration-300 group-hover:scale-110">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110">
                         </div>
                         <div class="p-3 md:p-6">
                             <h3 class="text-[1.1rem] leading-snug md:text-2xl font-extrabold text-brand-blue mb-2 cursor-pointer hover:text-brand-sky transition-colors" onclick="openProductModal('${p.id}')">${p.name}</h3>
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
               </div>
               <div class="bg-blue-600 border-[3px] border-blue-600 rounded-2xl flex flex-col h-full shadow-lg group-hover:-translate-y-1.5 transition-transform duration-300">
                 <div class="bg-white rounded-t-[0.85rem] p-1.5 w-full">
-                  <div class="w-full aspect-square md:aspect-auto md:h-48 overflow-hidden rounded-lg bg-gray-50">
+                  <div class="w-full aspect-[4/3] md:aspect-auto md:h-48 overflow-hidden rounded-lg bg-gray-50 flex items-center justify-center">
                     <img src="${reason.image}" alt="${reason.title}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                   </div>
                 </div>
@@ -318,7 +318,7 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
         });
         grid.innerHTML = html;
-        
+
         // Kích hoạt hiệu ứng cuộn cho các thẻ vừa tạo
         setTimeout(() => {
             const els = document.querySelectorAll('#reasons-grid .animate-on-scroll');
@@ -329,196 +329,131 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderTestimonials() {
-        const container = document.getElementById('testimonials-grid');
-        const carouselContainer = document.getElementById('testimonials-carousel-container');
+        let currentReviewCount = 3;
+        const container = document.getElementById('reviews-container');
+        const loadMoreContainer = document.getElementById('load-more-container');
+        const loadMoreBtn = document.getElementById('load-more-btn');
         if (!container || typeof testimonialsData === 'undefined') return;
 
-        let html = '';
-
-        testimonialsData.forEach((t) => {
+        function buildReviewHtml(t) {
             let starsHtml = '';
             for (let i = 0; i < t.stars; i++) {
-                starsHtml += `<i data-lucide="star" class="w-5 h-5 fill-amber-500"></i>\n`;
+                starsHtml += `<i data-lucide="star" class="w-4 h-4 fill-amber-500 text-amber-500"></i>`;
             }
 
-            // Dùng padding (px-3 md:px-4) thay vì gap để giữ kích thước % chuẩn cho slider
-            html += `
-            <div class="w-full md:w-1/3 shrink-0 px-3 md:px-4 py-2 flex">
-              <div class="bg-brand-sky-light/30 rounded-3xl p-6 md:p-8 border border-blue-100 shadow-sm flex flex-col justify-between whitespace-normal w-full">
-                <div>
-                  <div class="flex items-center gap-1 text-amber-500 mb-4">
-                    ${starsHtml}
-                  </div>
-                  <p class="text-navy-800 text-base italic leading-relaxed mb-6">
-                    "${t.content}"
-                  </p>
+            let tagsHtml = '';
+            if (t.tags && t.tags.length > 0) {
+                tagsHtml = `<div class="flex flex-wrap gap-2 mb-4">`;
+                t.tags.forEach(tag => {
+                    tagsHtml += `<span class="px-3 py-1 border border-gray-200 rounded-full text-xs text-gray-600 bg-white shadow-sm">${tag}</span>`;
+                });
+                tagsHtml += `</div>`;
+            }
+
+            let replyHtml = '';
+            if (t.reply) {
+                replyHtml = `
+                <div class="bg-blue-50/50 p-4 rounded-lg mt-4 border border-blue-100/50">
+                    <h5 class="font-bold text-brand-blue text-sm mb-1">Phản hồi của Điện máy ATLANTIS</h5>
+                    <p class="text-sm text-gray-700">${t.reply}</p>
                 </div>
-                <div class="flex items-center gap-4 pt-4 border-t border-blue-100">
-                  ${t.avatar ? 
-                    `<img src="${t.avatar}" alt="${t.name}" class="w-12 h-12 rounded-full object-cover border border-gray-200">` : 
-                    `<div class="w-12 h-12 rounded-full ${t.initialsBg} text-white font-bold flex items-center justify-center text-lg">${t.initials}</div>`
-                  }
-                  <div>
-                    <h4 class="font-extrabold text-brand-blue text-base">
-                      ${t.name}
-                    </h4>
-                    <p class="text-xs text-navy-500 font-semibold">
-                      ${t.role}
+                `;
+            }
+
+            return `
+            <div class="flex gap-4 border-b border-gray-100 pb-8 last:border-0">
+                <!-- Avatar -->
+                <div class="shrink-0">
+                    <img src="${t.avatar}" alt="${t.name}" class="w-12 h-12 rounded-full object-cover border border-gray-200">
+                </div>
+                <!-- Content -->
+                <div class="flex-1">
+                    <h4 class="font-semibold text-gray-800 text-base mb-1">${t.name}</h4>
+                    <div class="flex items-center gap-1 mb-1">
+                        ${starsHtml}
+                    </div>
+                    <div class="text-xs text-gray-400 mb-3">${t.date}</div>
+                    
+                    <p class="text-gray-800 text-base leading-relaxed mb-4">
+                        ${t.content}
                     </p>
-                  </div>
+                    
+                    ${tagsHtml}
+                    ${replyHtml}
                 </div>
-              </div>
             </div>`;
+        }
+
+        let html = '';
+        const initialLoad = testimonialsData.slice(0, currentReviewCount);
+        initialLoad.forEach((t) => {
+            html += buildReviewHtml(t);
         });
 
         container.innerHTML = html;
-        
-        // Re-initialize icons
+
         if (typeof lucide !== 'undefined') {
             lucide.createIcons();
         }
 
-        // Logic Slider / Carousel
-        const totalItems = testimonialsData.length;
-        let currentIndex = 0;
-        let itemsPerView = window.innerWidth >= 768 ? 3 : 1;
+        if (testimonialsData.length > currentReviewCount && loadMoreContainer) {
+            loadMoreContainer.classList.remove('hidden');
 
-        function updateSlider() {
-            if (totalItems <= itemsPerView) {
-                container.style.transform = `translateX(0%)`;
-                return;
-            }
-            if (currentIndex > totalItems - itemsPerView) {
-                currentIndex = 0; // Kéo lại bình luận 1
-            }
-            
-            const percentage = -(currentIndex * (100 / itemsPerView));
-            container.style.transform = `translateX(${percentage}%)`;
-        }
+            if (loadMoreBtn) {
+                const newBtn = loadMoreBtn.cloneNode(true);
+                loadMoreBtn.parentNode.replaceChild(newBtn, loadMoreBtn);
 
-        // Auto slide mỗi 5 giây
-        let sliderInterval = setInterval(() => {
-            if (totalItems > itemsPerView) {
-                currentIndex++;
-                updateSlider();
-            }
-        }, 5000);
+                newBtn.addEventListener('click', () => {
+                    newBtn.innerHTML = `<svg class="animate-spin w-5 h-5 text-brand-blue" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Đang tải...`;
+                    newBtn.disabled = true;
 
-        // Tạm dừng khi di chuột vào slider
-        if (carouselContainer) {
-            carouselContainer.addEventListener('mouseenter', () => clearInterval(sliderInterval));
-            carouselContainer.addEventListener('mouseleave', () => {
-                if (!isDragging) {
-                    clearInterval(sliderInterval); // Đảm bảo không bị trùng lặp interval
-                    sliderInterval = setInterval(() => {
-                        if (totalItems > itemsPerView) {
-                            currentIndex++;
-                            updateSlider();
+                    setTimeout(() => {
+                        let moreHtml = '';
+                        const moreData = testimonialsData.slice(currentReviewCount);
+                        moreData.forEach(t => {
+                            moreHtml += buildReviewHtml(t);
+                        });
+
+                        container.insertAdjacentHTML('beforeend', moreHtml);
+                        currentReviewCount = testimonialsData.length;
+
+                        if (typeof lucide !== 'undefined') {
+                            lucide.createIcons();
                         }
-                    }, 5000);
-                }
-            });
-        }
-
-        // Xử lý khi thay đổi kích thước màn hình
-        window.addEventListener('resize', () => {
-            itemsPerView = window.innerWidth >= 768 ? 3 : 1;
-            if (currentIndex > totalItems - itemsPerView) {
-                currentIndex = Math.max(0, totalItems - itemsPerView);
+                        if (currentReviewCount >= testimonialsData.length) {
+                            // Thay thế nút bằng biểu tượng loading vĩnh viễn (hiệu ứng marketing)
+                            loadMoreContainer.innerHTML = `
+                                <div class="flex flex-col items-center justify-center text-gray-400 py-6">
+                                    <svg class="animate-spin w-8 h-8 mb-3 text-brand-sky" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">Đang tải thêm bình luận...</span>
+                                </div>
+                            `;
+                        }
+                    }, 800);
+                });
             }
-            updateSlider();
-        });
-
-        // --- HỖ TRỢ KÉO / VUỐT (DRAG & SWIPE) ---
-        let isDragging = false;
-        let startPos = 0;
-        let currentTranslate = 0;
-        let prevTranslate = 0;
-        let diffX = 0;
-
-        function getPositionX(event) {
-            return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+        } else if (loadMoreContainer) {
+            // Nếu ban đầu đã hết bình luận, cũng hiện icon loading thay vì ẩn đi
+            loadMoreContainer.classList.remove('hidden');
+            loadMoreContainer.innerHTML = `
+                <div class="flex flex-col items-center justify-center text-gray-400 py-6">
+                    <svg class="animate-spin w-8 h-8 mb-3 text-brand-sky" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span class="text-sm font-medium">Đang tải thêm bình luận...</span>
+                </div>
+            `;
         }
-
-        function touchStart(index) {
-            return function (event) {
-                if (event.type === 'mousedown') {
-                    event.preventDefault(); // Prevent native image drag / text selection
-                }
-                isDragging = true;
-                startPos = getPositionX(event);
-                clearInterval(sliderInterval);
-                
-                // Loại bỏ CSS transition để khối trượt mượt theo ngón tay/chuột
-                container.classList.remove('transition-transform', 'duration-1000');
-                container.style.cursor = 'grabbing';
-            }
-        }
-
-        function touchMove(event) {
-            if (isDragging) {
-                if (event.type === 'mousemove') {
-                    event.preventDefault();
-                }
-                const currentPosition = getPositionX(event);
-                diffX = currentPosition - startPos;
-                
-                // Tính toán phần trăm dịch chuyển
-                const containerWidth = carouselContainer.offsetWidth;
-                const basePercentage = -(currentIndex * (100 / itemsPerView));
-                const diffPercentage = (diffX / containerWidth) * 100;
-                
-                container.style.transform = `translateX(calc(${basePercentage}% + ${diffPercentage}%))`;
-            }
-        }
-
-        function touchEnd() {
-            if (!isDragging) return;
-            isDragging = false;
-            container.classList.add('transition-transform', 'duration-1000');
-            container.style.cursor = 'grab';
-
-            // Vuốt sang trái (next)
-            if (diffX < -50 && currentIndex < totalItems - itemsPerView) {
-                currentIndex++;
-            }
-            // Vuốt sang phải (prev)
-            else if (diffX > 50 && currentIndex > 0) {
-                currentIndex--;
-            }
-
-            updateSlider();
-            diffX = 0; // Reset diff
-
-            // Bật lại auto slide
-            clearInterval(sliderInterval);
-            sliderInterval = setInterval(() => {
-                if (totalItems > itemsPerView) {
-                    currentIndex++;
-                    updateSlider();
-                }
-            }, 5000);
-        }
-
-        // Mouse events
-        container.addEventListener('mousedown', touchStart(currentIndex));
-        container.addEventListener('mousemove', touchMove);
-        container.addEventListener('mouseup', touchEnd);
-        container.addEventListener('mouseleave', touchEnd);
-
-        // Touch events
-        container.addEventListener('touchstart', touchStart(currentIndex), { passive: true });
-        container.addEventListener('touchmove', touchMove, { passive: true });
-        container.addEventListener('touchend', touchEnd);
-        
-        // Thêm class cursor-grab mặc định
-        container.classList.add('cursor-grab');
     }
 
 
     // ======================== DUAL SUBMIT FORM HANDLER ========================
     const forms = document.querySelectorAll('.consultation-form');
-    
+
     forms.forEach(form => {
         let clickedAction = 'order';
         const btnOrderNow = form.querySelector('[data-action="order"]');
@@ -538,18 +473,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const fullname = form.querySelector('input[name="fullname"]').value.trim();
             const phone = form.querySelector('input[name="phone"]').value.trim();
-            
+
             const addressInput = form.querySelector('input[name="address"]');
             const address = addressInput ? addressInput.value.trim() : '';
-            
+
             const capacitySelect = form.querySelector('select[name="capacity"]');
             const capacityText = capacitySelect ? capacitySelect.options[capacitySelect.selectedIndex].text : 'Chưa chọn sản phẩm';
             const capacityVal = capacitySelect ? capacitySelect.value : '';
-            
+
             let voucherText = 'Không có';
             let productName = capacityText;
             let price = '';
-            
+
             if (capacityVal && typeof productsData !== 'undefined') {
                 const capNum = parseInt(capacityVal.replace('L', ''));
                 const product = productsData.find(p => p.capacity === capNum);
@@ -610,10 +545,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (orderModal && !orderModal.classList.contains('hidden')) {
                     orderModal.classList.add('hidden');
                 }
-                
+
                 // Chuyển hướng sang trang cảm ơn
                 window.location.href = 'thankyou.html';
-                
+
             }, 1200);
         });
     });
@@ -652,13 +587,13 @@ let countdownInterval;
 let currentMainImageUrl = "";
 let currentMainImageIsVideo = false;
 
-window.selectThumbnail = function(thumbUrl, isVideo) {
+window.selectThumbnail = function (thumbUrl, isVideo) {
     currentMainImageUrl = thumbUrl;
     currentMainImageIsVideo = isVideo;
-    
+
     const imgEl = document.getElementById('modal-image');
     if (imgEl) imgEl.src = thumbUrl;
-    
+
     const videoOverlay = document.getElementById('modal-video-overlay');
     if (videoOverlay) {
         if (isVideo) {
@@ -669,7 +604,7 @@ window.selectThumbnail = function(thumbUrl, isVideo) {
     }
 };
 
-window.handleMainImageClick = function() {
+window.handleMainImageClick = function () {
     if (currentMainImageIsVideo) {
         window.openVideoIfAvailable();
     } else {
@@ -686,15 +621,16 @@ window.openProductModal = function (productId) {
 
     // Populate text data
     document.getElementById('modal-title').textContent = product.name;
-    
+
     // Khởi tạo ảnh đầu tiên (video hoặc ảnh thường)
     const hasVideo = product.hasVideo === true;
     const firstImage = product.thumbnails && product.thumbnails.length > 0 ? product.thumbnails[0] : product.image;
     window.selectThumbnail(firstImage, hasVideo);
-    
+
     document.getElementById('modal-image').alt = product.name;
 
     // Populate specs
+    document.getElementById('modal-model').textContent = product.specs.model || '';
     document.getElementById('modal-voltage').textContent = product.specs.voltage || '';
     document.getElementById('modal-power').textContent = product.specs.power || '';
     document.getElementById('modal-capacity').textContent = product.specs.capacityText || '';

@@ -3,7 +3,7 @@ const productsData = [
     id: "30",
     capacity: 30,
     name: "Nồi Phở Điện 30L Atlantis",
-    image: "image/30l.png",
+    image: "image/26.png",
     thumbnails: [
       "image/30l.png",
       "image/30L/5cb43c4b-36f8-47de-a632-28a7e4d49852.png",
@@ -18,6 +18,7 @@ const productsData = [
     badgeColor: "bg-brand-blue",
     voucher: "Giảm 32% & Tặng Voucher Miễn phí vận chuyển",
     specs: {
+      model: "AL18630M",
       voltage: "220V/50Hz",
       power: "1 mâm 3kw",
       capacityText: "30 lít",
@@ -35,7 +36,7 @@ const productsData = [
     id: "50",
     capacity: 50,
     name: "Nồi Phở Điện 50L Atlantis",
-    image: "image/50L.png",
+    image: "image/27.png",
     thumbnails: [
       "image/50L.png",
       "image/50L/1eaa0146-077a-4eb5-9993-7275931d2fd6.png",
@@ -48,10 +49,9 @@ const productsData = [
     newPrice: "4.350.000đ",
     badge: "Dung Tích 50L",
     badgeColor: "bg-brand-sky",
-    highlightBadge: "BÁN CHẠY NHẤT",
-
     voucher: "Tặng Voucher 26% & Giỏ linh xương",
     specs: {
+      model: "AL18650M",
       voltage: "220V/50Hz",
       power: "1 mâm 3kw",
       capacityText: "50 lít",
@@ -69,9 +69,9 @@ const productsData = [
     id: "70",
     capacity: 70,
     name: "Nồi Phở Điện 70L Atlantis",
-    image: "image/70L.png",
+    image: "image/22.png",
     thumbnails: [
-      "image/70L.png",
+      "image/22.png",
       "image/70L/0b9b8560-f7f5-4a80-a291-0a5a0038f0ec.png",
       "image/70L/8d2efc7e-be44-4987-9de5-ae1c10a970b00.png",
       "image/70L/8d738e3d-f30e-4b27-8437-195e1a7e8468.png",
@@ -85,6 +85,7 @@ const productsData = [
     customBorder: "border-2 border-brand-sky",
     voucher: "Giảm sốc 18% - Tặng Giỏ linh xương",
     specs: {
+      model: "AL18670M",
       voltage: "220V / 380V",
       power: " 2 mâm 3kw. 1 mâm 1kw",
       capacityText: "70 lít",
@@ -102,7 +103,7 @@ const productsData = [
     id: "100",
     capacity: 100,
     name: "Nồi Phở Điện 100L Atlantis",
-    image: "image/100L.png",
+    image: "image/23.png",
     thumbnails: [
       "image/100L.png",
       "image/100L/3b7ffd8e-d7d7-47f5-9aca-7868b4a897d9.png",
@@ -117,6 +118,7 @@ const productsData = [
     badgeColor: "bg-brand-blue",
     voucher: "Tặng Voucher 500k & Rổ nhúng",
     specs: {
+      model: "AL18100M",
       voltage: "220V / 380V",
       power: "2 mâm 3kw. 1 mâm 1kw",
       capacityText: "100 lít",
@@ -134,7 +136,7 @@ const productsData = [
     id: "120",
     capacity: 120,
     name: "Nồi Phở Điện 120L Atlantis",
-    image: "image/120L.png",
+    image: "image/24.png",
     thumbnails: [
       "image/120L.png",
       "image/120L/340fb27f-96db-4b83-8972-38a9603fd1ab.png",
@@ -149,6 +151,7 @@ const productsData = [
     badgeColor: "bg-brand-blue",
     voucher: "Tặng Voucher 600k & Ống trụng tròn",
     specs: {
+      model: "AL18120M",
       voltage: "220V / 380V",
       power: " 2 mâm 3kw. 1 mâm 1kw",
       capacityText: "120 lít",
@@ -166,7 +169,7 @@ const productsData = [
     id: "160",
     capacity: 160,
     name: "Nồi Phở Điện 160L Atlantis",
-    image: "image/160L.png",
+    image: "image/25.png",
     thumbnails: [
       "image/160L.png",
       "image/160L/3b7ffd8e-d7d7-47f5-9aca-7868b4a897d99.png",
@@ -181,6 +184,7 @@ const productsData = [
     badgeColor: "bg-brand-blue",
     voucher: "Tặng Voucher 1.000.000đ - Miễn phí vận chuyển toàn quốc",
     specs: {
+      model: "AL18160M",
       voltage: "380V (3 Pha)",
       power: "3 mâm 3kw. 1 mâm 1kw",
       capacityText: "160 lít",
