@@ -16,7 +16,7 @@ const productsData = [
     newPrice: "3.050.000đ",
     badge: "Dung Tích 30L",
     badgeColor: "bg-brand-blue",
-    voucher: "Giảm 32% & Tặng Voucher Miễn phí vận chuyển",
+    voucher: "Giảm 32% & Tặng Voucher Miễn phí vận chuyển 200k",
     specs: {
       model: "AL18630M",
       voltage: "220V/50Hz",
@@ -49,7 +49,7 @@ const productsData = [
     newPrice: "4.350.000đ",
     badge: "Dung Tích 50L",
     badgeColor: "bg-brand-sky",
-    voucher: "Tặng Voucher 26% & Giỏ linh xương",
+    voucher: "Tặng Voucher 26% & Giỏ Ninh xương",
     specs: {
       model: "AL18650M",
       voltage: "220V/50Hz",
@@ -83,7 +83,7 @@ const productsData = [
     badge: "Dung Tích 70L",
     badgeColor: "bg-brand-blue",
     customBorder: "border-2 border-brand-sky",
-    voucher: "Giảm sốc 18% - Tặng Giỏ linh xương",
+    voucher: "Giảm sốc 18% - Tặng Giỏ Ninh xương",
     specs: {
       model: "AL18670M",
       voltage: "220V / 380V",
@@ -112,11 +112,11 @@ const productsData = [
     ],
     hasVideo: false,
     description: "Công dụng: Ninh Xương Chuyên Dụng Quán Lớn (200 - 300 tô)",
-    oldPrice: "7.800.000đ",
+    oldPrice: "7.400.000đ",
     newPrice: "6.400.000đ",
     badge: "Dung Tích 100L",
     badgeColor: "bg-brand-blue",
-    voucher: "Tặng Voucher 500k & Rổ nhúng",
+    voucher: "Giảm sốc 14% & Tặng Giỏ Ninh Xương ",
     specs: {
       model: "AL18100M",
       voltage: "220V / 380V",
@@ -149,7 +149,7 @@ const productsData = [
     newPrice: "7.350.000đ",
     badge: "Dung Tích 120L",
     badgeColor: "bg-brand-blue",
-    voucher: "Tặng Voucher 600k & Ống trụng tròn",
+    voucher: "Giảm sốc 12% & Tặng Giỏ Ninh Xương",
     specs: {
       model: "AL18120M",
       voltage: "220V / 380V",
@@ -182,7 +182,7 @@ const productsData = [
     newPrice: "8.900.000đ",
     badge: "Dung Tích 160L",
     badgeColor: "bg-brand-blue",
-    voucher: "Tặng Voucher 1.000.000đ - Miễn phí vận chuyển toàn quốc",
+    voucher: "Giảm sốc 6% -Tặng Giỏ Ninh Xương ",
     specs: {
       model: "AL18160M",
       voltage: "380V (3 Pha)",

@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     style="animation-delay: ${delay}s">
                     ${highlightHtml}
                     <div>
-                        <div class="relative h-36 md:h-64 bg-slate-50 flex items-center justify-center p-3 md:p-6 border-b border-gray-100 cursor-pointer group" onclick="openProductModal('${p.id}')">
+                        <div class="relative h-36 md:h-64 bg-slate-50 flex items-center justify-center pt-12 pb-0 px-3 md:pt-16 md:pb-2 md:px-6 border-b border-gray-100 cursor-pointer group" onclick="openProductModal('${p.id}')">
                             <span class="absolute top-4 left-4 z-10 ${p.badgeColor} text-white text-[0.65rem] md:text-xs font-black px-2 md:px-3 py-1 md:py-1.5 rounded-lg uppercase">${p.badge}</span>
                             <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110">
                         </div>
@@ -360,6 +360,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             }
 
+            let imagesHtml = '';
+            if (t.images && t.images.length > 0) {
+                imagesHtml = `<div class="flex flex-wrap gap-2 mb-4">`;
+                t.images.forEach(img => {
+                    imagesHtml += `
+                        <div class="w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden border border-gray-200 cursor-pointer hover:border-brand-blue group" onclick="if(typeof Fancybox !== 'undefined') { Fancybox.show([{ src: '${img}', type: 'image' }]); }">
+                            <img src="${img}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" alt="Review image">
+                        </div>
+                    `;
+                });
+                imagesHtml += `</div>`;
+            }
+
             return `
             <div class="flex gap-4 border-b border-gray-100 pb-8 last:border-0">
                 <!-- Avatar -->
@@ -378,6 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         ${t.content}
                     </p>
                     
+                    ${imagesHtml}
                     ${tagsHtml}
                     ${replyHtml}
                 </div>
@@ -507,22 +521,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // --- LẤY DỮ LIỆU VÀ IN RA CONSOLE ---
-            const formData = {
-                'Họ và tên': fullname,
-                'Số điện thoại': phone,
-                'Địa chỉ': address,
-                'Sản phẩm quan tâm': productName,
-                'Mức giá': price,
-                'Khuyến mãi được hưởng': voucherText,
-                'Loại yêu cầu': clickedAction === 'order' ? 'Đặt hàng' : 'Tư vấn',
-                'Thời gian': new Date().toLocaleString('vi-VN')
-            };
+            // --- URL GOOGLE APPS SCRIPT ---
+            // BẠN CẦN THAY THẾ URL DƯỚI ĐÂY BẰNG URL WEB APP CỦA BẠN
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbZCyIn6ohPVn6In5QovjlUTltWxLUxW6goSuCdifJQxQAdgOg4EnvvDGVPsl1jjmk/exec';
+            
+            // Đóng gói dữ liệu để gửi lên Google Sheet
+            const formDataObj = new FormData();
+            formDataObj.append('fullname', fullname);
+            formDataObj.append('phone', phone);
+            formDataObj.append('address', address);
+            formDataObj.append('product', productName);
+            formDataObj.append('price', price);
+            formDataObj.append('voucher', voucherText);
+            formDataObj.append('request_type', clickedAction === 'order' ? 'Đặt hàng' : 'Tư vấn');
+            formDataObj.append('time', new Date().toLocaleString('vi-VN'));
 
-            console.log('===== DỮ LIỆU ĐĂNG KÝ MỚI =====');
-            console.table(formData);
-            console.log('JSON Data:', JSON.stringify(formData));
-            // ------------------------------------
+            console.log('===== DANG GUI DU LIEU =====');
+            console.table(Object.fromEntries(formDataObj.entries()));
 
             const activeBtn = clickedAction === 'order' ? btnOrderNow : btnRequestCall;
             const originalBtnHtml = activeBtn.innerHTML;
@@ -536,7 +551,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <span>Đang xử lý yêu cầu...</span>
             `;
 
-            setTimeout(() => {
+            // Gửi dữ liệu tới Google Sheets qua Web App URL
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Rất quan trọng để tránh lỗi CORS khi gửi từ frontend
+                body: formDataObj
+            }).then(() => {
                 // Đóng popup nếu đang ở trong popup
                 if (typeof closeProductModal === 'function') {
                     closeProductModal();
@@ -546,10 +566,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     orderModal.classList.add('hidden');
                 }
 
-                // Chuyển hướng sang trang cảm ơn
+                // Chuyển hướng sang trang cảm ơn để đo lường chuyển đổi (Ads Conversion)
                 window.location.href = 'thankyou.html';
-
-            }, 1200);
+            }).catch(error => {
+                console.error('Error!', error.message);
+                alert('Có lỗi mạng xảy ra, vui lòng thử lại sau hoặc gọi trực tiếp Hotline!');
+                activeBtn.disabled = false;
+                activeBtn.innerHTML = originalBtnHtml;
+            });
         });
     });
 

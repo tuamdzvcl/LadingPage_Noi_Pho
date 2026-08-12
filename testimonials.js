@@ -6,23 +6,25 @@ const testimonialsData = [
     avatar: "image/feaback1.jpg",
     name: "Nguyễn Luyến",
     date: "2024-04-15 21:16",
+    images: ["image/noi3.jpg", "image/noi4.jpg"],
     tags: ["Chất lượng sản phẩm tuyệt vời", "Đóng gói sản phẩm rất đẹp và chắc chắn", "Rất đáng tiền"],
     reply: "Cảm ơn bạn đã tin tưởng và lựa chọn sản phẩm của chúng tôi."
   },
   {
     id: 2,
     stars: 5,
-    content: "Tôi dùng bộ nồi phở 30L và 70L của Atlantis được hơn 2 năm nay. Nước sôi cực nhanh, rơ-le ngắt nhiệt tự động nên mỗi tháng tiết kiệm được gần 600k tiền điện so với nồi than ngày xưa. Rất hài lòng!",
+    content: "Dùng bộ nồi phở 30L và 70L của Atlantis được hơn 2 năm nay. Nước sôi cực nhanh, rơ-le ngắt nhiệt tự động nên mỗi tháng tiết kiệm được gần 600k tiền điện so với nồi than ngày xưa",
     avatar: "image/feaback6.jpg",
     name: "Nguyễn Thị Hồng",
     date: "2024-03-20 09:45",
+    images: ["image/noi5.jpg"],
     tags: ["Chất lượng sản phẩm tuyệt vời", "Giao hàng nhanh"],
     reply: "Điện máy Atlantis rất vui khi sản phẩm giúp ích được cho quán của cô. Chúc quán luôn đông khách ạ!"
   },
   {
     id: 3,
     stars: 5,
-    content: "Đặt mua chiếc 100L ninh xương cho chuỗi nhà hàng, kỹ thuật viên bên Atlantis đến tận nơi khảo sát đường điện và lắp Aptomat chống giật miễn phí rất cẩn thận. Dịch vụ hậu mãi 10 điểm!",
+    content: "Đặt mua chiếc 100L ninh xương cho chuỗi nhà hàng, kỹ thuật viên bên Atlantis đến tận nơi khảo sát đường điện và lắp Aptomat chống giật miễn phí rất cẩn thận",
     avatar: "image/feaback3.jpg",
     name: "Nguyễn Văn Sáng",
     date: "2024-02-12 14:30",
