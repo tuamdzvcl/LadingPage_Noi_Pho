@@ -523,8 +523,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- URL GOOGLE APPS SCRIPT ---
             // BẠN CẦN THAY THẾ URL DƯỚI ĐÂY BẰNG URL WEB APP CỦA BẠN
-            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbZCyIn6ohPVn6In5QovjlUTltWxLUxW6goSuCdifJQxQAdgOg4EnvvDGVPsl1jjmk/exec';
-            
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVHV6MBZ6PO4qt_2nUpOV_yjTfdQEogwDw27dlyt6jZflgkNGRi6oHOOAQtUtIvop1/exec';
+
             // Đóng gói dữ liệu để gửi lên Google Sheet
             const formDataObj = new FormData();
             formDataObj.append('fullname', fullname);
@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
             formDataObj.append('voucher', voucherText);
             formDataObj.append('request_type', clickedAction === 'order' ? 'Đặt hàng' : 'Tư vấn');
             formDataObj.append('time', new Date().toLocaleString('vi-VN'));
-            
+
             // Lấy thông tin theo dõi Google Ads từ localStorage
             formDataObj.append('gclid', localStorage.getItem('gclid') || '');
             formDataObj.append('utm_source', localStorage.getItem('utm_source') || '');
