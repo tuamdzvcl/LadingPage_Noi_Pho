@@ -535,6 +535,11 @@ document.addEventListener('DOMContentLoaded', () => {
             formDataObj.append('voucher', voucherText);
             formDataObj.append('request_type', clickedAction === 'order' ? 'Đặt hàng' : 'Tư vấn');
             formDataObj.append('time', new Date().toLocaleString('vi-VN'));
+            
+            // Lấy thông tin theo dõi Google Ads từ localStorage
+            formDataObj.append('gclid', localStorage.getItem('gclid') || '');
+            formDataObj.append('utm_source', localStorage.getItem('utm_source') || '');
+            formDataObj.append('utm_campaign', localStorage.getItem('utm_campaign') || '');
 
             console.log('===== DANG GUI DU LIEU =====');
             console.table(Object.fromEntries(formDataObj.entries()));
