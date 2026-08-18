@@ -1,157 +1,316 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cảm ơn bạn! - Nồi Phở Điện Atlantis</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cảm ơn bạn! - Nồi Phở Điện Atlantis</title>
 
-  <!-- ======================== GOOGLE ADS CONVERSION TRACKING ======================== -->
-  <!-- 1. Dán mã Global Site Tag (gtag.js) của bạn vào ĐÂY -->
-  
-  <!-- 2. Dán mã Sự kiện chuyển đổi (Event snippet) của bạn vào ĐÂY -->
-  
-  <!-- ============================================================================== -->
+    <!-- ======================== GOOGLE ADS CONVERSION TRACKING ======================== -->
+    <!-- 1. Dán mã Global Site Tag (gtag.js) của bạn vào ĐÂY -->
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            navy: {
-              50: "#F0F4F8", 100: "#D9E2EC", 200: "#BCCCDC", 300: "#9FB3C8",
-              400: "#829AB1", 500: "#627D98", 600: "#486581", 700: "#334E68",
-              800: "#243B53", 900: "#102A43", 950: "#0B1D2D",
+    <!-- 2. Dán mã Sự kiện chuyển đổi (Event snippet) của bạn vào ĐÂY -->
+
+    <!-- ============================================================================== -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              navy: {
+                50: "#F0F4F8",
+                100: "#D9E2EC",
+                200: "#BCCCDC",
+                300: "#9FB3C8",
+                400: "#829AB1",
+                500: "#627D98",
+                600: "#486581",
+                700: "#334E68",
+                800: "#243B53",
+                900: "#102A43",
+                950: "#0B1D2D",
+              },
+              brand: {
+                blue: "#1B3A5C",
+                "blue-dark": "#0B1D2D",
+                "blue-light": "#2D5F8A",
+                sky: "#2563EB",
+                "sky-hover": "#1D4ED8",
+                "sky-light": "#EFF6FF",
+              },
             },
-            brand: {
-              blue: "#1B3A5C", "blue-dark": "#0B1D2D", "blue-light": "#2D5F8A",
-              sky: "#2563EB", "sky-hover": "#1D4ED8", "sky-light": "#EFF6FF",
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
             },
           },
-          fontFamily: {
-            sans: ["Inter", "sans-serif"],
-          },
+        },
+      };
+    </script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* Particles/Blob Animations */
+      @keyframes blob {
+        0% {
+          transform: translate(0px, 0px) scale(1);
+        }
+        33% {
+          transform: translate(30px, -50px) scale(1.1);
+        }
+        66% {
+          transform: translate(-20px, 20px) scale(0.9);
+        }
+        100% {
+          transform: translate(0px, 0px) scale(1);
         }
       }
-    };
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
-  <style>
-    body {
-      font-family: "Inter", sans-serif;
-    }
+      .animate-blob {
+        animation: blob 7s infinite;
+      }
+      .animation-delay-2000 {
+        animation-delay: 2s;
+      }
+      .animation-delay-4000 {
+        animation-delay: 4s;
+      }
 
-    /* Particles/Blob Animations */
-    @keyframes blob {
-      0% { transform: translate(0px, 0px) scale(1); }
-      33% { transform: translate(30px, -50px) scale(1.1); }
-      66% { transform: translate(-20px, 20px) scale(0.9); }
-      100% { transform: translate(0px, 0px) scale(1); }
-    }
-    .animate-blob {
-      animation: blob 7s infinite;
-    }
-    .animation-delay-2000 { animation-delay: 2s; }
-    .animation-delay-4000 { animation-delay: 4s; }
+      /* Elements Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes bounceIn {
+        0% {
+          opacity: 0;
+          transform: scale(0.3);
+        }
+        50% {
+          opacity: 1;
+          transform: scale(1.05);
+        }
+        70% {
+          transform: scale(0.9);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+      @keyframes pulseGlow {
+        0% {
+          box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
+        }
+        70% {
+          box-shadow: 0 0 0 30px rgba(74, 222, 128, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+        }
+      }
+      @keyframes shine {
+        0% {
+          left: -100%;
+        }
+        20% {
+          left: 100%;
+        }
+        100% {
+          left: 100%;
+        }
+      }
 
-    /* Elements Animations */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes bounceIn {
-      0% { opacity: 0; transform: scale(0.3); }
-      50% { opacity: 1; transform: scale(1.05); }
-      70% { transform: scale(0.9); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-    @keyframes pulseGlow {
-      0% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6); }
-      70% { box-shadow: 0 0 0 30px rgba(74, 222, 128, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
-    }
-    @keyframes shine {
-      0% { left: -100%; }
-      20% { left: 100%; }
-      100% { left: 100%; }
-    }
+      .animate-fade-in-up {
+        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+      }
+      .success-icon-wrap {
+        animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+            forwards,
+          pulseGlow 2s infinite 1s;
+        opacity: 0;
+      }
+      .btn-shine {
+        position: relative;
+        overflow: hidden;
+      }
+      .btn-shine::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.3) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
+        transform: skewX(-25deg);
+        animation: shine 3s infinite;
+      }
 
-    .animate-fade-in-up {
-      animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-      opacity: 0;
-    }
-    .success-icon-wrap {
-      animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, pulseGlow 2s infinite 1s;
-      opacity: 0;
-    }
-    .btn-shine {
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-shine::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 50%;
-      height: 100%;
-      background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
-      transform: skewX(-25deg);
-      animation: shine 3s infinite;
-    }
-    
-    .delay-100 { animation-delay: 100ms; }
-    .delay-200 { animation-delay: 200ms; }
-    .delay-300 { animation-delay: 300ms; }
-    .delay-400 { animation-delay: 400ms; }
-  </style>
-</head>
-<!-- Gradient Background instead of plain white -->
-<body class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-brand-blue-dark via-brand-blue to-navy-900 relative overflow-hidden">
+      .delay-100 {
+        animation-delay: 100ms;
+      }
+      .delay-200 {
+        animation-delay: 200ms;
+      }
+      .delay-300 {
+        animation-delay: 300ms;
+      }
+      .delay-400 {
+        animation-delay: 400ms;
+      }
+    </style>
 
-  <!-- Moving Ambient Blobs -->
-  <div class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0">
-    <div class="absolute top-[-10%] left-[-10%] w-72 h-72 md:w-96 md:h-96 bg-brand-sky rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob"></div>
-    <div class="absolute top-[20%] right-[-10%] w-72 h-72 md:w-96 md:h-96 bg-purple-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob animation-delay-2000"></div>
-    <div class="absolute bottom-[-10%] left-[20%] w-72 h-72 md:w-96 md:h-96 bg-green-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20 animate-blob animation-delay-4000"></div>
-  </div>
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != "dataLayer" ? "&l=" + l : "";
+        j.async = true;
+        j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, "script", "dataLayer", "GTM-P83H7TWZ");
+    </script>
 
-  <!-- Glassmorphism Card -->
-  <div class="z-10 max-w-xl w-full bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl p-10 md:p-14 text-center border border-white/20 relative overflow-hidden animate-fade-in-up">
-    
-    <div class="relative">
-      <!-- Glowy Success Icon -->
-      <div class="w-24 h-24 bg-gradient-to-tr from-green-400 to-green-300 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(74,222,128,0.4)] success-icon-wrap">
-        <i data-lucide="check-circle-2" class="w-12 h-12"></i>
-      </div>
-      
-      <!-- Text Content with light colors for dark background -->
-      <h1 class="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight animate-fade-in-up delay-200" style="text-shadow: 0 2px 10px rgba(0,0,0,0.5);">Đăng ký thành công!</h1>
-      
-      <p class="text-lg text-blue-50/90 font-medium mb-8 leading-relaxed animate-fade-in-up delay-300">
-        Cảm ơn bạn đã tin tưởng chọn Nồi Phở Điện <strong class="text-brand-sky-light font-bold">Atlantis</strong>.<br/> 
-        Đội ngũ tư vấn viên của chúng tôi đã nhận được thông tin và sẽ gọi điện hỗ trợ bạn trong vòng 15 phút tới.
-      </p>
-      
-      <!-- Buttons -->
-      <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-400">
-        <a href="index.html" class="btn-shine inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-sky hover:bg-brand-sky-hover text-white rounded-xl font-bold text-lg shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all transform hover:-translate-y-1">
-          <i data-lucide="arrow-left" class="w-5 h-5"></i>
-          Trang chủ
-        </a>
-        <!-- Glassmorphism secondary button -->
-        <a href="tel:0964516124" class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white rounded-xl font-bold text-lg backdrop-blur-md transition-all transform hover:-translate-y-1">
-          <i data-lucide="phone-call" class="w-5 h-5"></i>
-          0964516124
-        </a>
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod
+            ? n.callMethod.apply(n, arguments)
+            : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = "2.0";
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(
+        window,
+        document,
+        "script",
+        "https://connect.facebook.net/en_US/fbevents.js"
+      );
+      fbq("init", "1099494689309655");
+      fbq("track", "PageView");
+    </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=1099494689309655&ev=PageView&noscript=1"
+    /></noscript>
+  </head>
+  <!-- Gradient Background instead of plain white -->
+  <body
+    class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-brand-blue-dark via-brand-blue to-navy-900 relative overflow-hidden"
+  >
+    <!-- Moving Ambient Blobs -->
+    <div
+      class="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none z-0"
+    >
+      <div
+        class="absolute top-[-10%] left-[-10%] w-72 h-72 md:w-96 md:h-96 bg-brand-sky rounded-full mix-blend-screen filter blur-[80px] opacity-40 animate-blob"
+      ></div>
+      <div
+        class="absolute top-[20%] right-[-10%] w-72 h-72 md:w-96 md:h-96 bg-purple-500 rounded-full mix-blend-screen filter blur-[80px] opacity-30 animate-blob animation-delay-2000"
+      ></div>
+      <div
+        class="absolute bottom-[-10%] left-[20%] w-72 h-72 md:w-96 md:h-96 bg-green-500 rounded-full mix-blend-screen filter blur-[80px] opacity-20 animate-blob animation-delay-4000"
+      ></div>
+    </div>
+
+    <!-- Glassmorphism Card -->
+    <div
+      class="z-10 max-w-xl w-full bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl p-10 md:p-14 text-center border border-white/20 relative overflow-hidden animate-fade-in-up"
+    >
+      <div class="relative">
+        <!-- Glowy Success Icon -->
+        <div
+          class="w-24 h-24 bg-gradient-to-tr from-green-400 to-green-300 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-[0_0_40px_rgba(74,222,128,0.4)] success-icon-wrap"
+        >
+          <i data-lucide="check-circle-2" class="w-12 h-12"></i>
+        </div>
+
+        <!-- Text Content with light colors for dark background -->
+        <h1
+          class="text-3xl md:text-4xl font-black text-white mb-4 tracking-tight animate-fade-in-up delay-200"
+          style="text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5)"
+        >
+          Đăng ký thành công!
+        </h1>
+
+        <p
+          class="text-lg text-blue-50/90 font-medium mb-8 leading-relaxed animate-fade-in-up delay-300"
+        >
+          Cảm ơn bạn đã tin tưởng chọn Nồi Phở Điện
+          <strong class="text-brand-sky-light font-bold">Atlantis</strong
+          >.<br />
+          Đội ngũ tư vấn viên của chúng tôi đã nhận được thông tin và sẽ gọi
+          điện hỗ trợ bạn trong vòng 15 phút tới.
+        </p>
+
+        <!-- Buttons -->
+        <div
+          class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up delay-400"
+        >
+          <a
+            href="index.html"
+            class="btn-shine inline-flex items-center justify-center gap-2 px-8 py-4 bg-brand-sky hover:bg-brand-sky-hover text-white rounded-xl font-bold text-lg shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all transform hover:-translate-y-1"
+          >
+            <i data-lucide="arrow-left" class="w-5 h-5"></i>
+            Trang chủ
+          </a>
+          <!-- Glassmorphism secondary button -->
+          <a
+            href="tel:0964516124"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/30 text-white rounded-xl font-bold text-lg backdrop-blur-md transition-all transform hover:-translate-y-1"
+          >
+            <i data-lucide="phone-call" class="w-5 h-5"></i>
+            0964516124
+          </a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <script>
-    lucide.createIcons();
-  </script>
-</body>
+    <script>
+      lucide.createIcons();
+    </script>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-P83H7TWZ"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+  </body>
 </html>
