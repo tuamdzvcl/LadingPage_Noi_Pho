@@ -5,12 +5,10 @@
 
 // Helper to pre-select capacity in form when clicking from product card
 function selectCapacityInForm(capacityValue) {
-    const id = capacityValue.replace('L', '');
-    const input = document.getElementById('qty-' + id);
-    if (input) {
-        let val = parseInt(input.value) || 0;
-        if (val === 0) input.value = 1;
-    }
+    const selects = document.querySelectorAll('select[name="capacity"]');
+    selects.forEach(select => {
+        select.value = capacityValue;
+    });
 }
 
 function updateOrderQty(id, delta) {
@@ -217,8 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     style="animation-delay: ${delay}s">
                     ${highlightHtml}
                     <div>
-                        <div class="relative h-36 md:h-64 bg-slate-50 flex items-center justify-center pt-12 pb-0 px-3 md:pt-16 md:pb-2 md:px-6 border-b border-gray-100 cursor-pointer group" onclick="openProductModal('${p.id}')">
-                            <span class="absolute top-4 left-4 z-10 ${p.badgeColor} text-white text-[0.65rem] md:text-xs font-black px-2 md:px-3 py-1 md:py-1.5 rounded-lg uppercase">${p.badge}</span>
+                        <div class="relative h-44 md:h-64 bg-slate-50 flex items-center justify-center pt-12 pb-0 px-3 md:pt-16 md:pb-2 md:px-6 border-b border-gray-100 cursor-pointer group" onclick="openProductModal('${p.id}')">
                             <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110">
                         </div>
                         <div class="p-3 md:p-6">
@@ -706,13 +703,13 @@ window.openProductModal = function (productId) {
                 const icon = idx === 0 ? 'percent' : (idx === 1 ? 'gift' : 'settings');
                 const color = idx === 0 ? 'text-red-500' : (idx === 1 ? 'text-brand-blue' : 'text-amber-500');
                 voucherContainer.innerHTML += `
-                    <div class="flex items-center gap-2 bg-white px-3 md:px-4 py-2 rounded-xl shadow border border-gray-100">
-                        <i data-lucide="${icon}" class="w-5 h-5 ${color}"></i>
-                        <span class="font-bold text-gray-800 text-xs md:text-sm">${promo}</span>
+                    <div class="flex items-center gap-1 md:gap-2 bg-white px-2 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl shadow border border-gray-100 shrink-1 w-full max-w-[200px] md:max-w-none">
+                        <i data-lucide="${icon}" class="w-3.5 h-3.5 md:w-5 md:h-5 shrink-0 ${color}"></i>
+                        <span class="font-bold text-gray-800 text-[12px] sm:text-[10px] md:text-sm leading-tight break-words whitespace-normal text-left">${promo}</span>
                     </div>
                 `;
                 if (idx < promos.length - 1) {
-                    voucherContainer.innerHTML += `<span class="text-xl font-black text-gray-400">+</span>`;
+                    voucherContainer.innerHTML += `<div class="w-full text-center max-w-[200px] md:max-w-none"><span class="text-base md:text-xl font-black text-gray-400">+</span></div>`;
                 }
             });
             if (typeof lucide !== 'undefined') lucide.createIcons();
@@ -756,6 +753,8 @@ window.openProductModal = function (productId) {
 
         // Start countdown timer
         startCountdownTimer();
+
+        setTimeout(() => { if (typeof updateThumbArrows === 'function') updateThumbArrows(); }, 100);
     }
 };
 
@@ -909,3 +908,50 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCountdown();
     setInterval(updateCountdown, 1000);
 });
+
+window.scrollThumbs = function (direction) {
+    const container = document.getElementById('modal-thumbnails');
+    if (!container) return;
+    const scrollAmount = container.clientHeight / 2;
+    if (direction === 'up') {
+        container.scrollBy({ top: -scrollAmount, behavior: 'smooth' });
+    } else {
+        container.scrollBy({ top: scrollAmount, behavior: 'smooth' });
+    }
+};
+
+window.updateThumbArrows = function () {
+    const container = document.getElementById('modal-thumbnails');
+    const upBtn = document.getElementById('thumb-up-btn');
+    const downBtn = document.getElementById('thumb-down-btn');
+    if (!container || !upBtn || !downBtn) return;
+
+    // Only apply logic if screen is mobile (Tailwind md breakpoint is 768px)
+    if (window.innerWidth >= 768) {
+        upBtn.classList.add('hidden');
+        downBtn.classList.add('hidden');
+        return;
+    }
+
+    // Check if scrollable
+    if (container.scrollHeight > container.clientHeight + 2) {
+        if (container.scrollTop > 0) {
+            upBtn.classList.remove('hidden');
+            upBtn.classList.add('flex');
+        } else {
+            upBtn.classList.add('hidden');
+            upBtn.classList.remove('flex');
+        }
+
+        if (container.scrollTop + container.clientHeight < container.scrollHeight - 2) {
+            downBtn.classList.remove('hidden');
+            downBtn.classList.add('flex');
+        } else {
+            downBtn.classList.add('hidden');
+            downBtn.classList.remove('flex');
+        }
+    } else {
+        upBtn.classList.add('hidden');
+        downBtn.classList.add('hidden');
+    }
+};

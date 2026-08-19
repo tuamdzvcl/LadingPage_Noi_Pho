@@ -2,7 +2,7 @@ const testimonialsData = [
   {
     id: 1,
     stars: 5,
-    content: "Mình dùng nồi nấu phở Atlantis thấy đun rất nhanh, nước sôi đều và giữ nhiệt tốt. Quán đông khách vẫn đáp ứng ổn định. Inox dày dặn, cọ rửa nhanh sạch.",
+    content: "Trước cứ nghĩ là nồi nấu phở bằng mâm nhiệt k sôi liu riu được. Mà mua về có đủ chế độ từ sôi mạnh đến sôi liu riu rất tiện.",
     avatar: "image/feaback1.jpg",
     name: "Nguyễn Luyến",
     date: "2024-04-15 21:16",
@@ -13,7 +13,7 @@ const testimonialsData = [
   {
     id: 2,
     stars: 5,
-    content: "Dùng bộ nồi phở 30L và 70L của Atlantis được hơn 2 năm nay. Nước sôi cực nhanh, rơ-le ngắt nhiệt tự động nên mỗi tháng tiết kiệm được gần 600k tiền điện so với nồi than ngày xưa",
+    content: "Dùng nồi thanh nhiệt cứ hay bị cháy. Dùng thử sang nồi hãng này vì thấy có cái chống cháy! Tôi đã tét thử thấy rất ưng. Đúng như quảng cáo.",
     avatar: "image/feaback6.jpg",
     name: "Nguyễn Thị Hồng",
     date: "2024-03-20 09:45",
@@ -24,7 +24,7 @@ const testimonialsData = [
   {
     id: 3,
     stars: 5,
-    content: "Đặt mua chiếc 100L ninh xương cho chuỗi nhà hàng, kỹ thuật viên bên Atlantis đến tận nơi khảo sát đường điện và lắp Aptomat chống giật miễn phí rất cẩn thận",
+    content: "Nhận nồi về có hơi móp 1 tí nhưng bên này hỗ trợ rất nhiệt tình!",
     avatar: "image/feaback3.jpg",
     name: "Nguyễn Văn Sáng",
     date: "2024-02-12 14:30",

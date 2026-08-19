@@ -6,8 +6,8 @@ const reasonsData = [
     },
     {
         id: 2,
-        image: "image/thaocnv.jpg",
-        title: "Đa dạng dung tích từ 30L-160L"
+        image: "image/trangcnv.jpg",
+        title: "Đa dạng dung tích <br> từ 30L-160L"
     },
     {
         id: 3,
