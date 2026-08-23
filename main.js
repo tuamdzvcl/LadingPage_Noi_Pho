@@ -3,6 +3,8 @@
  * Handles: Sticky Navbar, Mobile menu, Capacity selector filter, Form dual submit, Scroll animations
  */
 
+window.isPromotionActive = true;
+
 // Helper to pre-select capacity in form when clicking from product card
 function selectCapacityInForm(capacityValue) {
     const selects = document.querySelectorAll('select[name="capacity"]');
@@ -200,14 +202,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const delay = index * 0.05;
 
+            let currentPrice = p.newPrice;
+            let originalPriceHtml = '';
             let discountHtml = '';
-            if (p.oldPrice && p.newPrice) {
+
+            if (window.isPromotionActive && p.oldPrice && p.newPrice) {
                 const oldNum = parseInt(p.oldPrice.replace(/\D/g, ''));
                 const newNum = parseInt(p.newPrice.replace(/\D/g, ''));
                 if (oldNum > newNum) {
                     const percent = Math.round((oldNum - newNum) / oldNum * 100);
                     discountHtml = `<div class="absolute -top-3 -right-2 bg-amber-400 text-red-700 font-black px-2 py-0.5 rounded-md text-[11px] shadow-md transform rotate-3 z-20 border border-yellow-300 pointer-events-none">GIẢM ${percent}%</div>`;
                 }
+                originalPriceHtml = `<div class="mb-3"><span class="text-gray-500 text-sm font-medium">Giá gốc: <span class="line-through">${p.oldPrice}</span></span></div>`;
+            } else {
+                currentPrice = p.oldPrice || p.newPrice;
+                originalPriceHtml = `<div class="mb-3 h-5"></div>`;
             }
 
             const cardHtml = `
@@ -224,9 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                     </div>
                     <div class="p-3 md:p-6 pt-0">
-                        <div class="mb-3">
-                            <span class="text-gray-500 text-sm font-medium">Giá gốc: <span class="line-through">${p.oldPrice}</span></span>
-                        </div>
+                        ${originalPriceHtml}
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                             <div class="relative w-full h-full">
                                 ${discountHtml}
@@ -236,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                         <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
                                         <span>Đặt mua ngay</span>
                                     </div>
-                                    <span class="text-yellow-300 font-black text-sm md:text-[15px] leading-none drop-shadow-md">${p.newPrice}</span>
+                                    <span class="text-yellow-300 font-black text-sm md:text-[15px] leading-none drop-shadow-md">${currentPrice}</span>
                                 </a>
                             </div>
                             <button onclick="openProductModal('${p.id}')"
@@ -670,33 +677,41 @@ window.openProductModal = function (productId) {
     const oldPriceEl = document.getElementById('modal-old-price');
     const newPriceEl = document.getElementById('modal-new-price');
     const badgeEl = document.getElementById('modal-discount-badge');
+    const priceContainer = document.getElementById('modal-price-container');
+    const timerContainer = document.getElementById('modal-timer-container');
 
-    if (oldPriceEl && newPriceEl) {
-        oldPriceEl.textContent = product.oldPrice || '';
-        newPriceEl.textContent = product.newPrice || '';
+    if (window.isPromotionActive && product.oldPrice && product.newPrice) {
+        if (priceContainer) priceContainer.style.display = 'flex';
+        if (timerContainer) timerContainer.style.display = 'flex';
+        
+        if (oldPriceEl) oldPriceEl.textContent = product.oldPrice || '';
+        if (newPriceEl) newPriceEl.textContent = product.newPrice || '';
 
         if (badgeEl) {
-            if (product.oldPrice && product.newPrice) {
-                const oldNum = parseInt(product.oldPrice.replace(/\D/g, ''));
-                const newNum = parseInt(product.newPrice.replace(/\D/g, ''));
-                if (oldNum > newNum) {
-                    const percent = Math.round((oldNum - newNum) / oldNum * 100);
-                    badgeEl.textContent = 'GIẢM ' + percent + '%';
-                    badgeEl.classList.remove('hidden');
-                } else {
-                    badgeEl.classList.add('hidden');
-                }
+            const oldNum = parseInt(product.oldPrice.replace(/\D/g, ''));
+            const newNum = parseInt(product.newPrice.replace(/\D/g, ''));
+            if (oldNum > newNum) {
+                const percent = Math.round((oldNum - newNum) / oldNum * 100);
+                badgeEl.textContent = 'GIẢM ' + percent + '%';
+                badgeEl.classList.remove('hidden');
             } else {
                 badgeEl.classList.add('hidden');
             }
         }
+    } else {
+        if (priceContainer) priceContainer.style.display = 'none';
+        if (timerContainer) timerContainer.style.display = 'none';
+        
+        if (oldPriceEl) oldPriceEl.textContent = '';
+        if (newPriceEl) newPriceEl.textContent = product.oldPrice || product.newPrice || '';
+        if (badgeEl) badgeEl.classList.add('hidden');
     }
 
     // Populate Voucher
     const voucherContainer = document.getElementById('modal-voucher-container');
     if (voucherContainer) {
         voucherContainer.innerHTML = '';
-        if (product.voucher) {
+        if (window.isPromotionActive && product.voucher) {
             // Split voucher text if multiple (e.g. by & or -)
             const promos = product.voucher.split(/&|-/).map(p => p.trim());
             promos.forEach((promo, idx) => {
@@ -887,9 +902,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const distance = endTime - currentTime;
 
         if (distance <= 0) {
-            // Restart countdown when it reaches 0
-            endTime = currentTime + totalDurationMs;
-            localStorage.setItem(storageKey, endTime);
+            // End promotion and hide everything
+            window.isPromotionActive = false;
+            localStorage.removeItem(storageKey);
+            
+            // Re-render products to hide discounts
+            const activeBtn = document.querySelector('.capacity-btn.active');
+            if (typeof renderProducts === 'function') {
+                renderProducts(activeBtn ? activeBtn.getAttribute('data-capacity') : 'all');
+            }
+            
+            // Hide global banner
+            const globalBanner = document.getElementById('global-countdown-banner');
+            if (globalBanner) globalBanner.style.display = 'none';
+            
+            // Hide modal timers/promos if open
+            const timerContainer = document.getElementById('modal-timer-container');
+            if (timerContainer) timerContainer.style.display = 'none';
+            
+            return; // Stop updating
         }
 
         const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
