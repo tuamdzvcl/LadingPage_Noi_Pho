@@ -215,8 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     style="animation-delay: ${delay}s">
                     ${highlightHtml}
                     <div>
-                        <div class="relative h-44 md:h-64 bg-slate-50 flex items-center justify-center pt-12 pb-0 px-3 md:pt-16 md:pb-2 md:px-6 border-b border-gray-100 cursor-pointer group" onclick="openProductModal('${p.id}')">
-                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110">
+                        <div class="relative aspect-square md:aspect-auto md:h-72 bg-slate-50 flex items-center justify-center p-0 md:p-6 border-b border-gray-100 cursor-pointer group overflow-hidden" onclick="openProductModal('${p.id}')">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-contain scale-[1.35] md:scale-100 transition-transform duration-300 group-hover:scale-[1.45] md:group-hover:scale-110">
                         </div>
                         <div class="p-3 md:p-6">
                             <h3 class="text-[1.1rem] leading-snug md:text-2xl font-extrabold text-brand-blue mb-2 cursor-pointer hover:text-brand-sky transition-colors" onclick="openProductModal('${p.id}')">${p.name}</h3>
