@@ -33,11 +33,11 @@ const testimonialsData = [
     stars: 5,
     content: "Nhận nồi về có hơi móp 1 tí nhưng bên này hỗ trợ rất nhiệt tình!",
     avatar: "image/feaback3.jpg",
-    name: "Ngô Văn Tuấn Kiệt ",
+    name: "Ngô Văn Tuấn  ",
     date: "2024-02-12 14:30",
     tags: ["Dịch vụ tận tâm", "Sản phẩm chất lượng"],
     reply:
-      "Cảm ơn chú Sáng đã tin dùng sản phẩm của Atlantis. Đội ngũ kỹ thuật luôn sẵn sàng hỗ trợ 24/7 ạ.",
+      "Cảm ơn chú Tuấn đã tin dùng sản phẩm của Atlantis. Đội ngũ kỹ thuật luôn sẵn sàng hỗ trợ 24/7 ạ.",
   },
   {
     id: 4,
