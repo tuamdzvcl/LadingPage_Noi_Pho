@@ -527,10 +527,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- URL GOOGLE APPS SCRIPT ---
             // BẠN CẦN THAY THẾ URL DƯỚI ĐÂY BẰNG URL WEB APP CỦA BẠN
-            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwVHV6MBZ6PO4qt_2nUpOV_yjTfdQEogwDw27dlyt6jZflgkNGRi6oHOOAQtUtIvop1/exec';
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwZWhQn0ucq2fY2sG_KE7JmaJHwpyK1DNoGUjYmHXhuFTQNIM64WUg5sqgi_D90rKri/exec';
 
             // Đóng gói dữ liệu để gửi lên Google Sheet
             const formDataObj = new FormData();
+
+            const eventId = 'lead_' + crypto.randomUUID();
+
+            function getCookie(name) {
+                const row = document.cookie
+                    .split('; ')
+                    .find(x => x.startsWith(name + '='));
+
+                return row
+                    ? decodeURIComponent(row.slice(name.length + 1))
+                    : '';
+            }
+
+            formDataObj.append('event_id', eventId);
+            formDataObj.append('fbp', getCookie('_fbp'));
+            formDataObj.append('fbc', getCookie('_fbc'));
+            formDataObj.append(
+                'event_source_url',
+                window.location.href
+            );
+            formDataObj.append(
+                'event_time',
+                Math.floor(Date.now() / 1000)
+            );
+
+            formDataObj.append(
+                'event_name',
+                'Lead'
+            );
             formDataObj.append('fullname', fullname);
             formDataObj.append('phone', phone);
             formDataObj.append('address', address);
@@ -545,8 +574,6 @@ document.addEventListener('DOMContentLoaded', () => {
             formDataObj.append('utm_source', localStorage.getItem('utm_source') || '');
             formDataObj.append('utm_campaign', localStorage.getItem('utm_campaign') || '');
 
-            console.log('===== DANG GUI DU LIEU =====');
-            console.table(Object.fromEntries(formDataObj.entries()));
 
             const activeBtn = clickedAction === 'order' ? btnOrderNow : btnRequestCall;
             const originalBtnHtml = activeBtn.innerHTML;
@@ -683,7 +710,7 @@ window.openProductModal = function (productId) {
     if (window.isPromotionActive && product.oldPrice && product.newPrice) {
         if (priceContainer) priceContainer.style.display = 'flex';
         if (timerContainer) timerContainer.style.display = 'flex';
-        
+
         if (oldPriceEl) oldPriceEl.textContent = product.oldPrice || '';
         if (newPriceEl) newPriceEl.textContent = product.newPrice || '';
 
@@ -701,7 +728,7 @@ window.openProductModal = function (productId) {
     } else {
         if (priceContainer) priceContainer.style.display = 'none';
         if (timerContainer) timerContainer.style.display = 'none';
-        
+
         if (oldPriceEl) oldPriceEl.textContent = '';
         if (newPriceEl) newPriceEl.textContent = product.oldPrice || product.newPrice || '';
         if (badgeEl) badgeEl.classList.add('hidden');
@@ -905,21 +932,21 @@ document.addEventListener('DOMContentLoaded', () => {
             // End promotion and hide everything
             window.isPromotionActive = false;
             localStorage.removeItem(storageKey);
-            
+
             // Re-render products to hide discounts
             const activeBtn = document.querySelector('.capacity-btn.active');
             if (typeof renderProducts === 'function') {
                 renderProducts(activeBtn ? activeBtn.getAttribute('data-capacity') : 'all');
             }
-            
+
             // Hide global banner
             const globalBanner = document.getElementById('global-countdown-banner');
             if (globalBanner) globalBanner.style.display = 'none';
-            
+
             // Hide modal timers/promos if open
             const timerContainer = document.getElementById('modal-timer-container');
             if (timerContainer) timerContainer.style.display = 'none';
-            
+
             return; // Stop updating
         }
 
