@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // --- URL GOOGLE APPS SCRIPT ---
             // BẠN CẦN THAY THẾ URL DƯỚI ĐÂY BẰNG URL WEB APP CỦA BẠN
-            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzCxTOiwNh2-G-vgyvQOq3xcvp1S9XgG-Q-GVhANmDVHvWVw5l-7f2g2DB5R6cg0l8V/exec';
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx3JjjflCHt9VjwIHGMdsiEGKmsJ-nEQzSk0QlTHmXIKCr7YCm6f91iN8pSeWrGZmvA/exec';
 
             // Đóng gói dữ liệu để gửi lên Google Sheet
             const formDataObj = new FormData();
